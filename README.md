@@ -276,7 +276,7 @@ $ sudo make install
 
 #### `.deb` Package Installation
 
-Check the [Relases][] page for `.deb` packages.
+Check the [Releases][] page for `.deb` packages.
 
 [Releases]: <https://github.com/ExtremaIS/literatex-haskell/releases>
 
