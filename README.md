@@ -20,6 +20,7 @@
     * [Requirements](#requirements)
     * [Installation](#installation)
         * [Installation From Source](#installation-from-source)
+        * [`.deb` Package Installation](#deb-package-installation)
     * [Usage](#usage)
 * [Library](#library)
 * [Related Work](#related-work)
@@ -262,15 +263,22 @@ macOS.
 #### Installation From Source
 
 `literatex` can be built from source using [Stack][].  For example, you can
-install the latest release (to `~/.local/bin` on Linux) as follows:
+install the latest release (to `/usr/local` on Linux) as follows:
 
 ```
 $ git clone https://github.com/ExtremaIS/literatex-haskell.git
 $ cd literatex-haskell
-$ stack install
+$ make
+$ sudo make install
 ```
 
 [Stack]: <https://www.haskellstack.org>
+
+#### `.deb` Package Installation
+
+Check the [Relases][] page for `.deb` packages.
+
+[Releases]: <https://github.com/ExtremaIS/literatex-haskell/releases>
 
 ### Usage
 

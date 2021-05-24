@@ -107,6 +107,20 @@ clean-all: clean # clean package and remove artifacts
 > @rm -f cabal.project.local
 .PHONY: clean-all
 
+deb: # build .deb package for VERSION in a Debian container
+> $(eval VERSION := $(shell \
+    grep '^version:' $(CABAL_FILE) | sed 's/^version: *//'))
+> $(eval SRC := "$(PROJECT)-$(VERSION).tar.xz")
+> @test -f build/$(SRC) || $(call die,"build/$(SRC) not found")
+> @docker run --rm -it \
+>   -e DEBFULLNAME="$(MAINTAINER_NAME)" \
+>   -e DEBEMAIL="$(MAINTAINER_EMAIL)" \
+>   -v $(PWD)/dist/deb/make-deb.sh:/docker/make-deb.sh:ro \
+>   -v $(PWD)/build:/host \
+>   extremais/pkg-debian-stack:buster \
+>   /docker/make-deb.sh "$(SRC)"
+.PHONY: deb
+
 doc-api: hr
 doc-api: # build API documentation *
 ifeq ($(MODE), cabal)

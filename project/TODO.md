@@ -10,8 +10,6 @@
 
 ### Before Release
 
-* Prepare `.deb` packaging
-    * Add to README
 * Prepare `.rpm` packaging
     * Add to README
 * Set project status to active in README
