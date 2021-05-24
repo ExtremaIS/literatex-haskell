@@ -6,6 +6,16 @@ BINARY     := $(PACKAGE)
 CABAL_FILE := $(PACKAGE).cabal
 PROJECT    := $(PACKAGE)-haskell
 
+MAINTAINER_NAME  = Travis Cardwell
+MAINTAINER_EMAIL = travis.cardwell@extrema.is
+
+DESTDIR     ?=
+PREFIX      ?= /usr/local
+bindir      ?= $(DESTDIR)/$(PREFIX)/bin
+datarootdir ?= $(DESTDIR)/$(PREFIX)/share
+docdir      ?= $(datarootdir)/doc/$(PROJECT)
+man1dir     ?= $(datarootdir)/man/man1
+
 ##############################################################################
 # Make configuration
 
@@ -146,6 +156,31 @@ hsrecent: # show N most recently modified Haskell files
 hssloc: # count lines of Haskell source
 > @$(call hs_files) | xargs wc -l | tail -n 1 | sed 's/^ *\([0-9]*\).*$$/\1/'
 .PHONY: hssloc
+
+install: install-bin
+install: install-man
+install: install-doc
+install: # install everything to PREFIX
+.PHONY: install
+
+install-bin: build
+install-bin: # install executable to PREFIX/bin
+> $(eval LIROOT := $(shell stack path --local-install-root))
+> @mkdir -p "$(bindir)"
+> @install -m 0755 "$(LIROOT)/bin/$(BINARY)" "$(bindir)/$(BINARY)"
+.PHONY: install-bin
+
+install-doc: # install documentation to PREFIX/share/doc/literatex
+> @mkdir -p "$(docdir)"
+> @install -m 0644 -T <(gzip -c README.md) "$(docdir)/README.md.gz"
+> @install -m 0644 -T <(gzip -c CHANGELOG.md) "$(docdir)/changelog.gz"
+> @install -m 0644 -T <(gzip -c LICENSE) "$(docdir)/LICENSE.gz"
+.PHONY: install-doc
+
+install-man: # install manual to PREFIX/share/man/man1
+> @mkdir -p "$(man1dir)"
+> @install -m 0644 -T <(gzip -c doc/$(BINARY).1) "$(man1dir)/$(BINARY).1.gz"
+.PHONY: install-man
 
 man: # build man page
 > $(eval VERSION := $(shell \
