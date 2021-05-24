@@ -5,13 +5,13 @@ set -o nounset
 #set -o xtrace
 
 ##############################################################################
-# constants
+# Constants
 
 term_bold="$(tput bold)"
 term_reset="$(tput sgr0)"
 
 ##############################################################################
-# library
+# Library
 
 die () {
   echo "error: ${*}" >&2
@@ -23,7 +23,7 @@ section () {
 }
 
 ##############################################################################
-# parse arguments
+# Parse Arguments
 
 if [ "$#" -ne "1" ] ; then
   echo "usage: ${0} literatex-haskell-VERSION.tar.xz" >&2
@@ -39,7 +39,7 @@ litx_version="${litx_dir#literatex-haskell-}"
   || die "invalid source filename: ${litx_source}"
 
 ##############################################################################
-# confirm environment
+# Confirm Environment
 
 test -n "${DEBFULLNAME}" || die "DEBFULLNAME not set"
 test -n "${DEBEMAIL}" || die "DEBEMAIL not set"
@@ -50,7 +50,7 @@ arch="$(dpkg --print-architecture)"
 [ -f "/host/${litx_source}" ] || die "source not found: ${litx_source}"
 
 ##############################################################################
-# main
+# Main
 
 section "Building .deb"
 cd "/tmp"
@@ -68,4 +68,4 @@ cp dist/deb/Makefile .
 dpkg-buildpackage -us -uc
 cd "/tmp"
 rm -rf "${litx_dir}"
-sudo -u docker cp literatex-haskell* /host
+cp literatex-haskell* /host
