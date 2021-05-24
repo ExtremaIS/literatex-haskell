@@ -6,7 +6,7 @@
 [![Stackage LTS](https://stackage.org/package/literatex/badge/lts)](https://stackage.org/package/literatex)
 [![Stackage Nightly](https://stackage.org/package/literatex/badge/nightly)](https://stackage.org/nightly/package/literatex)
 
-![LiterateX](project/animation/literatex.gif)
+![LiterateX: LiterateBash, LiterateC, LiterateClojure, LiterateErlang, LiterateHaskell, LiterateIdris, LiterateJavaScript, LiteratePython, LiterateRacket, LiterateSQL, Literate...](project/animation/literatex.gif)
 
 * [Overview](#overview)
 * [Source Formats](#source-formats)
