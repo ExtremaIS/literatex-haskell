@@ -195,7 +195,7 @@ install-bin: # install executable to PREFIX/bin
 > @install -m 0755 "$(LIROOT)/bin/$(BINARY)" "$(bindir)/$(BINARY)"
 .PHONY: install-bin
 
-install-doc: # install documentation to PREFIX/share/doc/literatex
+install-doc: # install documentation to PREFIX/share/doc/literatex-haskell
 > @mkdir -p "$(docdir)"
 > @install -m 0644 -T <(gzip -c README.md) "$(docdir)/README.md.gz"
 > @install -m 0644 -T <(gzip -c CHANGELOG.md) "$(docdir)/changelog.gz"
