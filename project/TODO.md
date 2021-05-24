@@ -10,7 +10,6 @@
 
 ### Before Release
 
-* Fix animation background
 * Prepare `.deb` packaging
     * Add to README
 * Prepare `.rpm` packaging

@@ -36,7 +36,7 @@ animation = (mkFrame "X", 300) : [(mkFrame lang, 50) | lang <- langs]
           # fc black
           # translateX (-3)
           # translateY (-0.25)
-      <> rect 6.5 1 # lw none # fc white
+      <> rect 6.5 1 # lw none # fc white # bg white
 
 ------------------------------------------------------------------------------
 
