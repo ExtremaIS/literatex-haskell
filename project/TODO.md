@@ -10,8 +10,6 @@
 
 ### Before Release
 
-* Prepare `.rpm` packaging
-    * Add to README
 * Set project status to active in README
 * Add project to project index
 

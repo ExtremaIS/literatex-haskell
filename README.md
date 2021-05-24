@@ -21,6 +21,7 @@
     * [Installation](#installation)
         * [Installation From Source](#installation-from-source)
         * [`.deb` Package Installation](#deb-package-installation)
+        * [`.rpm` Package Installation](#rpm-package-installation)
     * [Usage](#usage)
 * [Library](#library)
 * [Related Work](#related-work)
@@ -277,6 +278,10 @@ $ sudo make install
 #### `.deb` Package Installation
 
 Check the [Releases][] page for `.deb` packages.
+
+#### `.rpm` Package Installation
+
+Check the [Releases][] page for `.rpm` packages.
 
 [Releases]: <https://github.com/ExtremaIS/literatex-haskell/releases>
 

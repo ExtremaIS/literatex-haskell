@@ -232,6 +232,20 @@ else
 endif
 .PHONY: repl
 
+rpm: # build .rpm package for VERSION in a Fedora container
+> $(eval VERSION := $(shell \
+    grep '^version:' $(CABAL_FILE) | sed 's/^version: *//'))
+> $(eval SRC := "$(PROJECT)-$(VERSION).tar.xz")
+> @test -f build/$(SRC) || $(call die,"build/$(SRC) not found")
+> @docker run --rm -it \
+>   -e RPMFULLNAME="$(MAINTAINER_NAME)" \
+>   -e RPMEMAIL="$(MAINTAINER_EMAIL)" \
+>   -v $(PWD)/dist/rpm/make-rpm.sh:/docker/make-rpm.sh:ro \
+>   -v $(PWD)/build:/host \
+>   extremais/pkg-fedora-stack:33 \
+>   /docker/make-rpm.sh "$(SRC)"
+.PHONY: rpm
+
 source-git: # create source tarball of git TREE
 > $(eval TREE := "HEAD")
 > $(eval BRANCH := $(shell git rev-parse --abbrev-ref $(TREE)))
