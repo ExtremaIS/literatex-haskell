@@ -59,6 +59,10 @@ define all_files
   find . -not -path '*/\.*' -type f
 endef
 
+define checksum_files
+  find . -maxdepth 1 -type f -not -path './*SUMS' | sed 's,^\./,,' | sort
+endef
+
 define die
   (echo "error: $(1)" ; false)
 endef
@@ -78,6 +82,13 @@ else
 > @stack build $(RESOLVER_ARGS) $(STACK_YAML_ARGS) $(NIX_PATH_ARGS)
 endif
 .PHONY: build
+
+checksums: # calculate checksums of build artifacts
+> @cd build && $(call checksum_files) | xargs md5sum > MD5SUMS
+> @cd build && $(call checksum_files) | xargs sha1sum > SHA1SUMS
+> @cd build && $(call checksum_files) | xargs sha256sum > SHA256SUMS
+> @cd build && $(call checksum_files) | xargs sha512sum > SHA512SUMS
+.PHONY: checksums
 
 clean: # clean package
 ifeq ($(MODE), cabal)
