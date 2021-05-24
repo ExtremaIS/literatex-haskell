@@ -10,8 +10,7 @@
 
 ### Before Release
 
-* Confirm GitHub CI passing
-* Proofread rendered README
+* Fix animation background
 * Prepare `.deb` packaging
     * Add to README
 * Prepare `.rpm` packaging

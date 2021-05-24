@@ -49,12 +49,12 @@ or even EPUB with [Pandoc][].
 [Pandoc]: <https://pandoc.org/>
 
 LiterateX can also be used in the publishing of blog entries, magazine
-articles, or even books.  Use the [command-line utility](#cli) or integrate
-the Haskell [library](#library) into your own software.
+articles, or books.  Use the [command-line utility](#cli) or integrate the
+Haskell [library](#library) into your own software.
 
 LiterateX has support for **source code rules**, comment lines that are used
 to visually separate sections of source code.  Since source code rules are
-just used to make the source code easier to scan quickly, they are ignored
+only used to make the source code easier to scan quickly, they are ignored
 (treated as a blank line) when translating to Markdown.
 
 LiterateX also has support for [shebang][] lines at the start of the file.
@@ -65,16 +65,16 @@ They can be ignored so that they do not precede the documentation.
 ## Source Formats
 
 LiterateX supports a number of source formats.  With the exception of
-[literate Haskell](#literate-haskell), documentation as line comments in the
-source language.  Note that multi-line comments are treated as code, not
-documentation.
+[literate Haskell](#literate-haskell), documentation is written in line
+comments in the source language.  Note that multi-line comments are treated as
+code, not documentation.
 
 ### Double-Dash Comments
 
 Documentation is parsed from lines that begin with two dashes immediately
-followed by a space (`-- `).  Lines that only contain two dashes (`--`) are
-treated as blank lines in the documentation.  Lines that contain three or more
-dashes are treated as source code rules and are ignored.
+followed by a space (`-- `).  Lines that only contain two dashes are treated
+as blank lines in the documentation.  Lines that contain three or more dashes
+are treated as source code rules and are ignored.
 
 ``` haskell
 -- # Haskell Example
@@ -103,9 +103,9 @@ Languages that use double-dash comments include the following:
 ### Double-Slash Comments
 
 Documentation is parsed from lines that begin with two slashes immediately
-followed by a space (`// `).  Lines that only contain two slashes (`//`) are
-treated as blank lines in the documentation.  Lines that contain three or more
-slashes are treated as source code rules and are ignored.
+followed by a space (`// `).  Lines that only contain two slashes are treated
+as blank lines in the documentation.  Lines that contain three or more slashes
+are treated as source code rules and are ignored.
 
 ``` rust
 // # Rust Example
@@ -138,9 +138,8 @@ Languages that use double-slash comments include the following:
 
 Documentation is parsed from lines that begin with a hash character
 immediately followed by a space (`# `).  Lines that only contain a hash
-character (`#`) are treated as blank lines in the documentation.  Lines that
-contain two or more hash characters are treated as source code rules and are
-ignored.
+character are treated as blank lines in the documentation.  Lines that contain
+two or more hash characters are treated as source code rules and are ignored.
 
 ``` python
 # # Python Example
@@ -204,7 +203,7 @@ that contain source code are prefixes with a greater-than sign and a space
 
 Note that this source format does not support source code rules.
 
-``` haskell
+``` lhaskell
 # Literate Haskell Example
 
 Executables are implemented using a `Main` module that exposes a function
@@ -224,9 +223,9 @@ This simple example just prints "Hello!" to the screen.
 
 Documentation is parsed from lines that begin with a percent character
 immediately followed by a space (`% `).  Lines that only contain a percent
-character (`%`) are treated as blank lines in the documentation.  Lines that
-contain two or more percent characters are treated as source code rules and
-are ignored.
+character are treated as blank lines in the documentation.  Lines that contain
+two or more percent characters are treated as source code rules and are
+ignored.
 
 ``` erlang
 % # Erlang Example
@@ -294,8 +293,8 @@ communication to human beings.  Note, however, that LiterateX does *not*
 support another core aspect of Knuth's literate programming: the ability to
 write source code in the order best for human understanding.  Since LiterateX
 transforms actual source code files, the source code has to be written in
-whatever order is required by the language.  Those interested being free from
-order are encouraged to check out [noweb][] and [CWEB][].
+whatever order is required by the language.  Those interested in writing code
+in different order are encouraged to check out [noweb][] and [CWEB][].
 
 [Literate programming]: <https://en.wikipedia.org/wiki/Literate_programming>
 [Donald Knuth]: <https://en.wikipedia.org/wiki/Donald_Knuth>
