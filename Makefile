@@ -242,7 +242,7 @@ rpm: # build .rpm package for VERSION in a Fedora container
 >   -e RPMEMAIL="$(MAINTAINER_EMAIL)" \
 >   -v $(PWD)/dist/rpm/make-rpm.sh:/docker/make-rpm.sh:ro \
 >   -v $(PWD)/build:/host \
->   extremais/pkg-fedora-stack:33 \
+>   extremais/pkg-fedora-stack:34 \
 >   /docker/make-rpm.sh "$(SRC)"
 .PHONY: rpm
 
