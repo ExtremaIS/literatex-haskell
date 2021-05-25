@@ -8,7 +8,7 @@ setup-info:
         content-length: 215436964
         sha1: b5bdbac29dfcb73e0d74002ac91b7b9cc2d72d1f
 
-resolver: nightly-2021-05-23
+resolver: nightly-2021-05-25
 
 packages:
   - .
