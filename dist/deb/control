@@ -1,0 +1,14 @@
+Source: literatex-haskell
+Section: text
+Priority: optional
+Maintainer: Travis Cardwell <travis.cardwell@extrema.is>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8
+Vcs-Git: git://github.com/ExtremaIS/literatex-haskell.git
+Vcs-browser: https://github.com/ExtremaIS/literatex-haskell
+Homepage: https://github.com/ExtremaIS/literatex-haskell#literatex
+
+Package: literatex-haskell
+Architecture: {ARCH}
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Transform literate source code to Markdown

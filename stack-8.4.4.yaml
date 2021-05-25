@@ -1,0 +1,7 @@
+resolver: lts-12.26
+
+packages:
+  - .
+
+extra-deps:
+  - ttc-0.4.0.0

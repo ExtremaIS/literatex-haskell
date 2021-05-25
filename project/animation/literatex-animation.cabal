@@ -1,0 +1,29 @@
+name:           literatex-animation
+version:        0.0.0.0
+synopsis:       LiterateX animation
+description:
+  This package contains the source for the LiterateX animation.
+
+homepage:       https://github.com/ExtremaIS/literatex-haskell#readme
+bug-reports:    https://github.com/ExtremaIS/literatex-haskell/issues
+author:         Travis Cardwell <travis.cardwell@extrema.is>
+maintainer:     Travis Cardwell <travis.cardwell@extrema.is>
+copyright:      Copyright (c) 2021 Travis Cardwell
+license:        MIT
+license-file:   LICENSE
+
+cabal-version:  1.24
+build-type:     Simple
+
+extra-source-files:
+  README.md
+
+executable literatex-animation
+  hs-source-dirs: .
+  main-is: Main.hs
+  build-depends:
+      base
+    , diagrams-cairo
+    , diagrams-lib
+  default-language: Haskell2010
+  ghc-options: -Wall
