@@ -246,6 +246,16 @@ rpm: # build .rpm package for VERSION in a Fedora container
 >   /home/docker/make-rpm.sh "$(SRC)"
 .PHONY: rpm
 
+sdist: # create source tarball for Hackage
+> $(eval BRANCH := $(shell git rev-parse --abbrev-ref HEAD))
+> @test "${BRANCH}" = "main" || $(call die,"not in main branch")
+ifeq ($(MODE), cabal)
+> @cabal sdist
+else
+> @stack sdist
+endif
+.PHONY: sdist
+
 source-git: # create source tarball of git TREE
 > $(eval TREE := "HEAD")
 > $(eval BRANCH := $(shell git rev-parse --abbrev-ref $(TREE)))
