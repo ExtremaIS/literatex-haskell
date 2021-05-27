@@ -115,10 +115,9 @@ deb: # build .deb package for VERSION in a Debian container
 > @docker run --rm -it \
 >   -e DEBFULLNAME="$(MAINTAINER_NAME)" \
 >   -e DEBEMAIL="$(MAINTAINER_EMAIL)" \
->   -v $(PWD)/dist/deb/make-deb.sh:/home/docker/make-deb.sh:ro \
 >   -v $(PWD)/build:/host \
 >   extremais/pkg-debian-stack:buster \
->   /home/docker/make-deb.sh "$(SRC)"
+>   /home/docker/bin/make-deb.sh "$(SRC)"
 .PHONY: deb
 
 doc-api: hr
@@ -240,10 +239,9 @@ rpm: # build .rpm package for VERSION in a Fedora container
 > @docker run --rm -it \
 >   -e RPMFULLNAME="$(MAINTAINER_NAME)" \
 >   -e RPMEMAIL="$(MAINTAINER_EMAIL)" \
->   -v $(PWD)/dist/rpm/make-rpm.sh:/home/docker/make-rpm.sh:ro \
 >   -v $(PWD)/build:/host \
 >   extremais/pkg-fedora-stack:34 \
->   /home/docker/make-rpm.sh "$(SRC)"
+>   /home/docker/bin/make-rpm.sh "$(SRC)"
 .PHONY: rpm
 
 sdist: # create source tarball for Hackage
