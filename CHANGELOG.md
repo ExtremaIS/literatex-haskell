@@ -26,13 +26,10 @@ following conventions:
 
 ## Unreleased
 
-## Breaking
-
-* Bump `ttc` dependency version upper bound
-
 ### Non-Breaking
 
 * Use `docker-pkg` scripts to build packages
+* Bump `ttc` dependency version upper bound
 
 ## 0.1.0.0 (2021-05-26)
 
