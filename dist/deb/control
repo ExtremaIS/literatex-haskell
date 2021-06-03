@@ -9,6 +9,6 @@ Vcs-browser: https://github.com/ExtremaIS/literatex-haskell
 Homepage: https://github.com/ExtremaIS/literatex-haskell#literatex
 
 Package: literatex-haskell
-Architecture: {ARCH}
+Architecture: {{ARCH}}
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Transform literate source code to Markdown

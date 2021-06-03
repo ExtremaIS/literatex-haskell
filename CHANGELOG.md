@@ -24,6 +24,13 @@ following conventions:
 
 [KaC]: <https://keepachangelog.com/en/1.0.0/>
 
+## 0.1.0.1 (2021-06-03)
+
+### Non-Breaking
+
+* Use `docker-pkg` scripts to build packages
+* Bump `ttc` dependency version upper bound
+
 ## 0.1.0.0 (2021-05-26)
 
 ### Breaking
