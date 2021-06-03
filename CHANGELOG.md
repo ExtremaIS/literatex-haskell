@@ -26,6 +26,10 @@ following conventions:
 
 ## Unreleased
 
+## Breaking
+
+* Bump `ttc` dependency version upper bound
+
 ### Non-Breaking
 
 * Use `docker-pkg` scripts to build packages
