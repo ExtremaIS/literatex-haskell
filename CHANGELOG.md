@@ -26,6 +26,8 @@ following conventions:
 
 ## Unreleased
 
+* Bump `ttc` dependency version upper bound
+
 ## 0.1.0.1 (2021-06-03)
 
 ### Non-Breaking
