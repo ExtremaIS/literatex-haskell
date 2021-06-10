@@ -1,7 +1,7 @@
-resolver: lts-17.14
+resolver: lts-17.15
 
 packages:
   - .
 
 extra-deps:
-  - ttc-1.0.0.0
+  - ttc-1.1.0.0
