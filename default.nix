@@ -1,35 +1,13 @@
+{ pkgs ? import <nixpkgs> {} }:
 let
-
-  nixpkgsRev = "bed08131cd29";
-  compilerVersion = "ghc8103";
-
-  githubTarball = owner: repo: rev:
-    builtins.fetchTarball { url = "https://github.com/${owner}/${repo}/archive/${rev}.tar.gz"; };
-
   gitIgnore = pkgs.nix-gitignore.gitignoreSourcePure;
-
-  config = {
-    packageOverrides = super: let self = super.pkgs; in rec {
-      haskell = super.haskell // {
-        packageOverrides = self: super: {
-          haskell-nix = super.callCabal2nix "haskell-nix" (gitIgnore [./.gitignore] ./.) {};
-        };
-      };
+  githubTarball = owner: repo: tag:
+    builtins.fetchTarball { url = "https://github.com/${owner}/${repo}/archive/refs/tags/${repo}-${tag}.tar.gz"; };
+in
+  pkgs.haskellPackages.developPackage {
+    root = gitIgnore [./.gitignore] ./.;
+    name = "literatex";
+    source-overrides = {
+      ttc = githubTarball "ExtremaIS" "ttc-haskell" "1.1.0.0";
     };
-  };
-
-  pkgs = import (githubTarball "NixOS" "nixpkgs" nixpkgsRev) { inherit config; };
-  compilerSet = pkgs.haskell.packages."${compilerVersion}";
-
-in {
-
-  inherit pkgs;
-
-  shell = compilerSet.shellFor {
-    packages = p: [p.haskell-nix];
-    buildInputs = with pkgs; [
-      compilerSet.cabal-install
-    ];
-  };
-
-}
+  }
