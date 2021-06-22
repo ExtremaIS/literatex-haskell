@@ -11,7 +11,7 @@
 #     $ nix-shell --argstr compiler ghc901
 
 { # This string argument specifies the compiler (example: "ghc8104").  When
-  # not specified, the default compiler (configured below) is used.
+  # not specified, the default compiler is used.
   compiler ? null
   # This path argument specifies the packages to use.  When not specified, a
   # working revision for the selected compiler is used.  When a working

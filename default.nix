@@ -61,7 +61,9 @@ let
       else import <nixpkgs> {}
     else nixpkgs;
 
-  # Git ignore functionality must use the most recent revision.
+  # Git ignore functionality from a fixed `nixpkgs` revision is used.  Old
+  # revisions do not work, proably due to an API change.  The `ghc901` build
+  # fails if that revision is not used.
   gitIgnore = (
     import (nixpkgsTarball nixpkgsRevs.ghc901) {}
   ).nix-gitignore.gitignoreSourcePure;
