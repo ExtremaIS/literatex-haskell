@@ -1,6 +1,14 @@
 # project
 /build/
 
+# cabal
+cabal.project.local
+cabal.project.local~
+/dist-newstyle/
+
+# nix
+result*
+
 # stack
 .stack-work
 *.yaml.lock
@@ -8,11 +16,6 @@ stack-nix*
 
 # stan
 /.hie/
-
-# cabal
-cabal.project.local
-cabal.project.local~
-/dist-newstyle/
 
 # vi
 .*.swp
