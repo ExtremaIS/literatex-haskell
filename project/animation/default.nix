@@ -1,8 +1,53 @@
-{ pkgs ? import <nixpkgs> {} }:
+# Nix configuration for `literatex-animation`
+#
+# Usage:
+#
+# * Build the program with the default compiler:
+#
+#     $ nix-build
+
+{ # This string argument specifies the compiler (example: "ghc8104").  When
+  # not specified, `ghc8104` is used.
+  compiler ? "ghc8104"
+  # This path argument specifies the packages to use.  When not specified and
+  # the default compiler is selected, a known good revision is used.
+  # Otherwise, the packages configured on the filesystem are used.
+, nixpkgs ? null
+  # This boolean argument is used by `shell.nix`.  When `True`, build tools
+  # are added to the derivation.
+, isShell ? false
+}:
+
 let
+
+  # This function fetches the specified nixpkgs revision.
+  nixpkgsTarball = rev:
+    builtins.fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/${rev}.tar.gz";
+    };
+
+  # Packages are explicitly specified, those for a known good revision for the
+  # default compiler, or those configured on the filesystem.
+  pkgs = if isNull nixpkgs
+    then if compiler == "ghc8104"
+      then import (nixpkgsTarball "4d4fdc329285e0d0c1c1a2b65947d651b8ba6b29") {}
+      else import <nixpkgs> {}
+    else nixpkgs;
+
+  # Git ignore functionality must use the most recent revision.
   gitIgnore = pkgs.nix-gitignore.gitignoreSourcePure;
+
 in
+
+  # Configure the development environment for the package using the selected
+  # packages and compiler.
   pkgs.haskellPackages.developPackage {
     root = gitIgnore [./.gitignore] ./.;
     name = "literatex-animation";
+    modifier = drv:
+      if isShell
+        then pkgs.haskell.lib.addBuildTools drv
+          [ pkgs.cabal-install pkgs.gifsicle pkgs.noto-fonts
+          ]
+        else drv;
   }
