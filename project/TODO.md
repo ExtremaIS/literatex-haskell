@@ -7,3 +7,5 @@
 ## Documentation
 
 ## Project
+
+* Rewrite animation with [reanimate](https://github.com/reanimate/reanimate)?
