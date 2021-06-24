@@ -11,7 +11,7 @@
 -- projects as required.  If the library grows to a substantial size or others
 -- with to use it, I will reconsider.
 --
--- Revision: 2021-04-04
+-- Revision: 2021-06-24
 ------------------------------------------------------------------------------
 
 {-# LANGUAGE CPP #-}
@@ -42,6 +42,9 @@ import Data.Monoid ((<>))
 
 -- https://hackage.haskell.org/package/optparse-applicative
 import qualified Options.Applicative as OA
+#if MIN_VERSION_optparse_applicative (0,16,0)
+import qualified Options.Applicative.Builder.Internal as OABI
+#endif
 import qualified Options.Applicative.Common as OAC
 import qualified Options.Applicative.Types as OAT
 
@@ -59,6 +62,10 @@ helper :: OA.Parser (a -> a)
 helper = OA.option helpReader $ mconcat
     [ OA.short 'h'
     , OA.long "help"
+    , OA.value id
+    , OA.metavar ""
+    , OABI.noGlobal
+    , OA.noArgError (OA.ShowHelpText Nothing)
     , OA.help "show this help text"
     , OA.hidden
     ]

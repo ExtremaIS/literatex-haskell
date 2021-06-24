@@ -26,6 +26,10 @@ following conventions:
 
 ## Unreleased
 
+### Breaking
+
+* Fix `--help` when using `optparse-applicative` `0.16`
+
 ### Non-Breaking
 
 * Refactor Nix configuration
