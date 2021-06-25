@@ -1,5 +1,8 @@
 # cabal
 /dist-newstyle/
 
+# nix
+result*
+
 # vi
 .*.swp
