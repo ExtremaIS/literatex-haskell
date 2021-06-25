@@ -33,19 +33,20 @@ following conventions:
 ### Non-Breaking
 
 * Refactor Nix configuration
+* Use TTC 1.1.0.1
 
 ## 0.1.0.2 (2021-06-10)
 
 ### Non-Breaking
 
-* Bump `ttc` dependency version upper bound
+* Bump TTC dependency version upper bound
 
 ## 0.1.0.1 (2021-06-03)
 
 ### Non-Breaking
 
 * Use `docker-pkg` scripts to build packages
-* Bump `ttc` dependency version upper bound
+* Bump TTC dependency version upper bound
 
 ## 0.1.0.0 (2021-05-26)
 
