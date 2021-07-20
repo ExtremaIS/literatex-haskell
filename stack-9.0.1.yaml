@@ -1,7 +1,4 @@
-resolver: nightly-2021-06-24
+resolver: nightly-2021-07-19
 
 packages:
   - .
-
-extra-deps:
-  - ttc-1.1.0.1
