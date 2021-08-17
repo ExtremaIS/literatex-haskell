@@ -117,7 +117,7 @@ deb: # build .deb package for VERSION in a Debian container
 >   -e DEBFULLNAME="$(MAINTAINER_NAME)" \
 >   -e DEBEMAIL="$(MAINTAINER_EMAIL)" \
 >   -v $(PWD)/build:/host \
->   extremais/pkg-debian-stack:buster \
+>   extremais/pkg-debian-stack:bullseye \
 >   /home/docker/bin/make-deb.sh "$(SRC)"
 .PHONY: deb
 
