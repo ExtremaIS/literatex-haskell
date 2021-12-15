@@ -327,7 +327,7 @@ ifeq ($(MODE), cabal)
 >   && cabal v2-test --enable-tests --test-show-details=always \
 >       $(CABAL_ARGS) \
 >   || cabal v2-test --enable-tests --test-show-details=always \
->       --test-option '--patern=$(P)' $(CABAL_ARGS)
+>       --test-option '--pattern=$(P)' $(CABAL_ARGS)
 else
 > @test -z "$(P)" \
 >   && stack test $(STACK_ARGS) \
