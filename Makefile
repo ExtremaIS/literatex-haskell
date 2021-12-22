@@ -130,6 +130,17 @@ clean-all: # clean package and remove artifacts
 > @rm -f result*
 .PHONY: clean-all
 
+coverage: hr
+coverage: # run tests with code coverage *
+ifeq ($(MODE), cabal)
+> cabal v2-test --enable-coverage --enable-tests --test-show-details=always \
+>   $(CABAL_ARGS)
+else
+> stack test --coverage $(STACK_ARGS)
+> stack hpc report .
+endif
+.PHONY: coverage
+
 deb: # build .deb package for VERSION in a Debian container
 > $(eval VERSION := $(shell \
     grep '^version:' $(CABAL_FILE) | sed 's/^version: *//'))
