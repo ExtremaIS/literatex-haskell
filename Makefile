@@ -1,19 +1,26 @@
 ##############################################################################
 # Project configuration
 
-PACKAGE    := literatex
-CABAL_FILE := $(PACKAGE).cabal
-PROJECT    := $(PACKAGE)-haskell
+PACKAGE     := literatex
+CABAL_FILE  := $(PACKAGE).cabal
+PROJECT     := $(PACKAGE)-haskell
+EXECUTABLES := literatex
 
-MAINTAINER_NAME  = Travis Cardwell
-MAINTAINER_EMAIL = travis.cardwell@extrema.is
+STACK_TEST_CONFIGS += stack-8.2.2.yaml
+STACK_TEST_CONFIGS += stack-8.4.4.yaml
+STACK_TEST_CONFIGS += stack-8.6.5.yaml
+STACK_TEST_CONFIGS += stack-8.8.4.yaml
+STACK_TEST_CONFIGS += stack-8.10.7.yaml
+STACK_TEST_CONFIGS += stack-9.0.1.yaml
+STACK_TEST_CONFIGS += stack-9.2.1.yaml
 
-DESTDIR     ?=
-PREFIX      ?= /usr/local
-bindir      ?= $(DESTDIR)/$(PREFIX)/bin
-datarootdir ?= $(DESTDIR)/$(PREFIX)/share
-docdir      ?= $(datarootdir)/doc/$(PROJECT)
-man1dir     ?= $(datarootdir)/man/man1
+DESTDIR ?=
+PREFIX  ?= /usr/local
+
+DEB_CONTAINER    ?= extremais/pkg-debian-stack:bullseye
+RPM_CONTAINER    ?= extremais/pkg-fedora-stack:34
+MAINTAINER_NAME  ?= Travis Cardwell
+MAINTAINER_EMAIL ?= travis.cardwell@extrema.is
 
 ##############################################################################
 # Make configuration
@@ -30,6 +37,11 @@ MAKEFLAGS += --no-builtin-rules
 MAKEFLAGS += --warn-undefined-variables
 
 .DEFAULT_GOAL := build
+
+BINDIR      := $(DESTDIR)$(PREFIX)/bin
+DATAROOTDIR := $(DESTDIR)$(PREFIX)/share
+DOCDIR      := $(DATAROOTDIR)/doc/$(PROJECT)
+MAN1DIR     := $(DATAROOTDIR)/man/man1
 
 ifneq ($(origin CABAL), undefined)
   MODE := cabal
@@ -75,6 +87,11 @@ define hs_files
   find . -not -path '*/\.*' -type f -name '*.hs'
 endef
 
+define newline
+
+
+endef
+
 ##############################################################################
 # Rules
 
@@ -116,13 +133,13 @@ clean-all: # clean package and remove artifacts
 deb: # build .deb package for VERSION in a Debian container
 > $(eval VERSION := $(shell \
     grep '^version:' $(CABAL_FILE) | sed 's/^version: *//'))
-> $(eval SRC := "$(PROJECT)-$(VERSION).tar.xz")
+> $(eval SRC := $(PROJECT)-$(VERSION).tar.xz)
 > @test -f build/$(SRC) || $(call die,"build/$(SRC) not found")
 > @docker run --rm -it \
 >   -e DEBFULLNAME="$(MAINTAINER_NAME)" \
 >   -e DEBEMAIL="$(MAINTAINER_EMAIL)" \
 >   -v $(PWD)/build:/host \
->   extremais/pkg-debian-stack:bullseye \
+>   $(DEB_CONTAINER) \
 >   /home/docker/bin/make-deb.sh "$(SRC)"
 .PHONY: deb
 
@@ -190,42 +207,54 @@ hssloc: # count lines of Haskell source
 install: install-bin
 install: install-man
 install: install-doc
-install: # install everything to PREFIX (*)
+install: # install everything (*)
 .PHONY: install
 
 install-bin: build
-install-bin: # install executable to PREFIX/bin (*)
-> @mkdir -p "$(bindir)"
+install-bin: # install executable(s) (*)
+> @mkdir -p "$(BINDIR)"
 ifeq ($(MODE), cabal)
-> @install -m 0755 \
->   "$(shell cabal list-bin $(CABAL_ARGS) literatex)" \
->   "$(bindir)/literatex"
+> $(foreach EXE,$(EXECUTABLES), \
+    @install -m 0755 \
+      "$(shell cabal list-bin $(CABAL_ARGS) $(EXE))" \
+      "$(BINDIR)/$(EXE)" $(newline) \
+  )
 else
 > $(eval LIROOT := $(shell stack path --local-install-root))
-> @install -m 0755 "$(LIROOT)/bin/literatex" "$(bindir)/literatex"
+> $(foreach EXE,$(EXECUTABLES), \
+    @install -m 0755 "$(LIROOT)/bin/$(EXE)" "$(BINDIR)/$(EXE)" $(newline) \
+  )
 endif
 .PHONY: install-bin
 
-install-doc: # install documentation to PREFIX/share/doc/literatex-haskell
-> @mkdir -p "$(docdir)"
-> @install -m 0644 -T <(gzip -c README.md) "$(docdir)/README.md.gz"
-> @install -m 0644 -T <(gzip -c CHANGELOG.md) "$(docdir)/changelog.gz"
-> @install -m 0644 -T <(gzip -c LICENSE) "$(docdir)/LICENSE.gz"
+install-doc: # install documentation
+> @mkdir -p "$(DOCDIR)"
+> @install -m 0644 README.md "$(DOCDIR)"
+> @gzip "$(DOCDIR)/README.md"
+> @install -m 0644 -T CHANGELOG.md "$(DOCDIR)/changelog"
+> @gzip "$(DOCDIR)/changelog"
+> @install -m 0644 LICENSE "$(DOCDIR)"
+> @gzip "$(DOCDIR)/LICENSE"
 .PHONY: install-doc
 
-install-man: # install manual to PREFIX/share/man/man1
-> @mkdir -p "$(man1dir)"
-> @install -m 0644 -T <(gzip -c doc/literatex.1) "$(man1dir)/literatex.1.gz"
+install-man: # install man page(s)
+> @mkdir -p "$(MAN1DIR)"
+> $(foreach EXE,$(EXECUTABLES), \
+    @install -m 0644 "doc/$(EXE).1" "$(MAN1DIR)" $(newline) \
+    @gzip "$(MAN1DIR)/$(EXE).1" $(newline) \
+  )
 .PHONY: install-man
 
 man: # build man page
 > $(eval VERSION := $(shell \
     grep '^version:' $(CABAL_FILE) | sed 's/^version: *//'))
 > $(eval DATE := $(shell date --rfc-3339=date))
-> @pandoc -s -t man -o doc/literatex.1 \
->   --variable header="literatex Manual" \
->   --variable footer="$(PROJECT) $(VERSION) ($(DATE))" \
->   doc/literatex.1.md
+> $(foreach EXE,$(EXECUTABLES), \
+    @pandoc -s -t man -o doc/$(EXE).1 \
+      --variable header="$(EXE) Manual" \
+      --variable footer="$(PROJECT) $(VERSION) ($(DATE))" \
+      doc/$(EXE).1.md $(newline) \
+  )
 .PHONY: man
 
 recent: # show N most recently modified files
@@ -246,13 +275,13 @@ endif
 rpm: # build .rpm package for VERSION in a Fedora container
 > $(eval VERSION := $(shell \
     grep '^version:' $(CABAL_FILE) | sed 's/^version: *//'))
-> $(eval SRC := "$(PROJECT)-$(VERSION).tar.xz")
+> $(eval SRC := $(PROJECT)-$(VERSION).tar.xz)
 > @test -f build/$(SRC) || $(call die,"build/$(SRC) not found")
 > @docker run --rm -it \
 >   -e RPMFULLNAME="$(MAINTAINER_NAME)" \
 >   -e RPMEMAIL="$(MAINTAINER_EMAIL)" \
 >   -v $(PWD)/build:/host \
->   extremais/pkg-fedora-stack:34 \
+>   $(RPM_CONTAINER) \
 >   /home/docker/bin/make-rpm.sh "$(SRC)"
 .PHONY: rpm
 
@@ -337,27 +366,17 @@ endif
 
 test-all: # run tests for all configured Stackage releases
 ifeq ($(MODE), cabal)
-> $(call die,"test-all not supported in CABAL mode")
+> $(error test-all not supported in CABAL mode)
 endif
-> @command -v hr >/dev/null 2>&1 && hr "stack-8.2.2.yaml" || true
-> @make test CONFIG=stack-8.2.2.yaml
-> @command -v hr >/dev/null 2>&1 && hr "stack-8.4.4.yaml" || true
-> @make test CONFIG=stack-8.4.4.yaml
-> @command -v hr >/dev/null 2>&1 && hr "stack-8.6.5.yaml" || true
-> @make test CONFIG=stack-8.6.5.yaml
-> @command -v hr >/dev/null 2>&1 && hr "stack-8.8.4.yaml" || true
-> @make test CONFIG=stack-8.8.4.yaml
-> @command -v hr >/dev/null 2>&1 && hr "stack-8.10.7.yaml" || true
-> @make test CONFIG=stack-8.10.7.yaml
-> @command -v hr >/dev/null 2>&1 && hr "stack-9.0.1.yaml" || true
-> @make test CONFIG=stack-9.0.1.yaml
-> @command -v hr >/dev/null 2>&1 && hr "stack-9.2.1.yaml" || true
-> @make test CONFIG=stack-9.2.1.yaml
+> $(foreach CONFIG,$(STACK_TEST_CONFIGS), \
+    @command -v hr >/dev/null 2>&1 && hr $(CONFIG) || true $(newline) \
+    @make test CONFIG=$(CONFIG) $(newline) \
+  )
 .PHONY: test-all
 
 test-nightly: # run tests for the latest Stackage nightly release
 ifeq ($(MODE), cabal)
-> $(call die,"test-nightly not supported in CABAL mode")
+> $(error test-nightly not supported in CABAL mode)
 endif
 > @make test RESOLVER=nightly
 .PHONY: test-nightly
