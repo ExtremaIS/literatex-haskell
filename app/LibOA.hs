@@ -11,10 +11,12 @@
 -- projects as required.  If the library grows to a substantial size or others
 -- with to use it, I will reconsider.
 --
--- Revision: 2021-06-24
+-- Revision: 2021-07-20
 ------------------------------------------------------------------------------
 
 {-# LANGUAGE CPP #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE TupleSections #-}
 
 module LibOA
   ( -- * Options
@@ -27,6 +29,7 @@ module LibOA
   , (<||>)
   , section
   , table
+  , table_
   , vspace
   ) where
 
@@ -35,7 +38,8 @@ import qualified Text.PrettyPrint.ANSI.Leijen as Doc
 import Text.PrettyPrint.ANSI.Leijen (Doc)
 
 -- https://hackage.haskell.org/package/base
-import qualified Data.List as List
+import Data.List (intersperse, transpose)
+import Data.Maybe (fromMaybe)
 #if !MIN_VERSION_base (4,11,0)
 import Data.Monoid ((<>))
 #endif
@@ -115,15 +119,23 @@ infixr 5 <||>
 section :: String -> Doc -> Doc
 section title = (Doc.text title Doc.<$$>) . Doc.indent 2
 
--- | Create a two-column table
-table :: [(String, String)] -> Doc
-table rows =
-    let width = 1 + maximum (map (length . fst) rows)
-    in  Doc.vcat
-          [ Doc.fillBreak width (Doc.text l) Doc.<+> Doc.text r
-          | (l, r) <- rows
-          ]
+-- | Create a table, with formatting
+table :: Int -> [[(String, Doc -> Doc)]] -> Doc
+table sep rows = Doc.vcat $
+    map (fromMaybe Doc.empty . foldr go Nothing . zip lengths) rows
+  where
+    lengths :: [Int]
+    lengths = map ((+) sep . maximum . map (length . fst)) $ transpose rows
+
+    go :: (Int, (String, Doc -> Doc)) -> Maybe Doc -> Maybe Doc
+    go (len, (s, f)) = Just . \case
+      Just doc -> Doc.fill len (f $ Doc.string s) <> doc
+      Nothing  -> f $ Doc.string s
+
+-- | Create a table, without formatting
+table_ :: Int -> [[String]] -> Doc
+table_ sep = table sep . (map . map) (, id)
 
 -- | Vertically space documents with blank lines between them
 vspace :: [Doc] -> Doc
-vspace = mconcat . List.intersperse (Doc.line <> Doc.line)
+vspace = mconcat . intersperse (Doc.line <> Doc.line)

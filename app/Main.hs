@@ -192,19 +192,19 @@ main = do
           ]
 
     sourceFormatHelp :: Doc
-    sourceFormatHelp = LibOA.section "SOURCE options:" $ LibOA.table
-      [ (TTC.render format, SourceFormat.describe format)
+    sourceFormatHelp = LibOA.section "SOURCE options:" $ LibOA.table_ 2
+      [ [TTC.render format, SourceFormat.describe format]
       | format <- SourceFormat.list
       ]
 
     targetFormatHelp :: Doc
-    targetFormatHelp = LibOA.section "TARGET options:" $ LibOA.table
-      [ (TTC.render format, TargetFormat.describe format)
+    targetFormatHelp = LibOA.section "TARGET options:" $ LibOA.table_ 2
+      [ [TTC.render format, TargetFormat.describe format]
       | format <- TargetFormat.list
       ]
 
     defaultsHelp :: Doc
-    defaultsHelp = LibOA.section "Default options:" $ LibOA.table
-      [ (ext, TTC.render lang ++ " (" ++ TTC.render format ++ ")")
+    defaultsHelp = LibOA.section "Default options:" $ LibOA.table_ 2
+      [ [ext, TTC.render lang ++ " (" ++ TTC.render format ++ ")"]
       | (ext, (format, lang)) <- SourceDefaults.extensionDefaults
       ]

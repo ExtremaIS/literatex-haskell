@@ -10,7 +10,7 @@ configuration.  There are no changes to the LiterateX API.
 
 [Nix]: <https://nixos.org/>
 
-### Big Fix
+### Bug Fix
 
 This release includes a fix for a bug that broke `--help` output.  The issue
 only affected builds using `optparse-applicative` `0.16`, so none of the
