@@ -26,6 +26,10 @@ following conventions:
 
 ## Unreleased
 
+### Non-Breaking
+
+* Bump `text` dependency version upper bound
+
 ## 0.2.0.0 (2021-06-25)
 
 ### Breaking
