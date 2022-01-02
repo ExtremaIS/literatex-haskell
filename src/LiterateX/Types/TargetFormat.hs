@@ -2,7 +2,7 @@
 -- |
 -- Module      : LiterateX.Types.TargetFormat
 -- Description : target format type
--- Copyright   : Copyright (c) 2021 Travis Cardwell
+-- Copyright   : Copyright (c) 2021-2022 Travis Cardwell
 -- License     : MIT
 ------------------------------------------------------------------------------
 
