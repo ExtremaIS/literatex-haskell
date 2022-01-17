@@ -6,6 +6,16 @@ CABAL_FILE  := $(PACKAGE).cabal
 PROJECT     := $(PACKAGE)-haskell
 EXECUTABLES := literatex
 
+MODE ?= stack
+
+CABAL_TEST_GHC_VERSIONS += 8.2.2
+CABAL_TEST_GHC_VERSIONS += 8.4.4
+CABAL_TEST_GHC_VERSIONS += 8.6.5
+CABAL_TEST_GHC_VERSIONS += 8.8.4
+CABAL_TEST_GHC_VERSIONS += 8.10.7
+CABAL_TEST_GHC_VERSIONS += 9.0.2
+CABAL_TEST_GHC_VERSIONS += 9.2.1
+
 STACK_TEST_CONFIGS += stack-8.2.2.yaml
 STACK_TEST_CONFIGS += stack-8.4.4.yaml
 STACK_TEST_CONFIGS += stack-8.6.5.yaml
@@ -38,24 +48,18 @@ MAKEFLAGS += --warn-undefined-variables
 
 .DEFAULT_GOAL := build
 
-BINDIR      := $(DESTDIR)$(PREFIX)/bin
-DATAROOTDIR := $(DESTDIR)$(PREFIX)/share
-DOCDIR      := $(DATAROOTDIR)/doc/$(PROJECT)
-MAN1DIR     := $(DATAROOTDIR)/man/man1
-
-ifneq ($(origin CABAL), undefined)
-  MODE := cabal
-  CABAL_ARGS :=
+ifeq ($(MODE), cabal)
+  GHC_VERSION ?= $(shell ghc --version | sed 's/.* //')
+  CABAL_ARGS := --with-ghc ghc-$(GHC_VERSION)
   ifneq ($(origin PROJECT_FILE), undefined)
     CABAL_ARGS += "--project-file=$(PROJECT_FILE)"
   else
-    PROJECT_FILE := cabal-$(shell ghc --version | sed 's/.* //').project
-    ifneq (,$(wildcard $(PROJECT_FILE)))
-      CABAL_ARGS += "--project-file=$(PROJECT_FILE)"
+    PROJECT_FILE_AUTO := cabal-$(GHC_VERSION).project
+    ifneq (,$(wildcard $(PROJECT_FILE_AUTO)))
+      CABAL_ARGS += "--project-file=$(PROJECT_FILE_AUTO)"
     endif
   endif
-else
-  MODE := stack
+else ifeq ($(MODE), stack)
   STACK_ARGS :=
   ifneq ($(origin CONFIG), undefined)
     STACK_ARGS += --stack-yaml "$(CONFIG)"
@@ -66,7 +70,14 @@ else
   ifneq ($(origin STACK_NIX_PATH), undefined)
     STACK_ARGS += "--nix-path=$(STACK_NIX_PATH)"
   endif
+else
+  $(error unknown MODE: $(MODE))
 endif
+
+BINDIR      := $(DESTDIR)$(PREFIX)/bin
+DATAROOTDIR := $(DESTDIR)$(PREFIX)/share
+DOCDIR      := $(DATAROOTDIR)/doc/$(PROJECT)
+MAN1DIR     := $(DATAROOTDIR)/man/man1
 
 ##############################################################################
 # Functions
@@ -133,10 +144,10 @@ clean-all: # clean package and remove artifacts
 coverage: hr
 coverage: # run tests with code coverage *
 ifeq ($(MODE), cabal)
-> cabal v2-test --enable-coverage --enable-tests --test-show-details=always \
->   $(CABAL_ARGS)
+> cabal v2-test $(CABAL_ARGS) \
+>   --enable-coverage --enable-tests --test-show-details=always
 else
-> stack test --coverage $(STACK_ARGS)
+> stack test $(STACK_ARGS) --coverage
 > stack hpc report .
 endif
 .PHONY: coverage
@@ -183,11 +194,14 @@ help: # show this help
 >   | sed 's/^\([^:]\+\):[^#]*# \(.*\)/make \1\t\2/' \
 >   | column -t -s $$'\t'
 > @echo
-> @echo "* Set CABAL to use Cabal instead of Stack."
-> @echo "* Set CONFIG to specify a Stack configuration file."
-> @echo "* Set PROJECT_FILE to specify a cabal.project file."
-> @echo "* Set RESOLVER to specify a Stack resolver."
-> @echo "* Set STACK_NIX_PATH to specify a Stack Nix path."
+> @echo "Cabal mode (MODE=cabal)"
+> @echo "  * Set GHC_VERSION to specify a GHC version."
+> @echo "  * Set PROJECT_FILE to specify a cabal.project file."
+> @echo
+> @echo "Stack mode (MODE=stack)"
+> @echo "  * Set CONFIG to specify a stack.yaml file."
+> @echo "  * Set RESOLVER to specify a Stack resolver."
+> @echo "  * Set STACK_NIX_PATH to specify a Stack Nix path."
 .PHONY: help
 
 hlint: # run hlint on all Haskell source
@@ -279,7 +293,7 @@ repl: # enter a REPL *
 ifeq ($(MODE), cabal)
 > cabal repl $(CABAL_ARGS)
 else
-> stack exec ghci $(STACK_ARGS)
+> stack exec $(STACK_ARGS) ghci
 endif
 .PHONY: repl
 
@@ -364,10 +378,9 @@ test: # run tests, optionally for pattern P *
 > $(eval P := "")
 ifeq ($(MODE), cabal)
 > @test -z "$(P)" \
->   && cabal v2-test --enable-tests --test-show-details=always \
->       $(CABAL_ARGS) \
->   || cabal v2-test --enable-tests --test-show-details=always \
->       --test-option '--pattern=$(P)' $(CABAL_ARGS)
+>   && cabal v2-test $(CABAL_ARGS) --enable-tests --test-show-details=always \
+>   || cabal v2-test $(CABAL_ARGS) --enable-tests --test-show-details=always \
+>       --test-option '--pattern=$(P)'
 else
 > @test -z "$(P)" \
 >   && stack test $(STACK_ARGS) \
@@ -375,14 +388,18 @@ else
 endif
 .PHONY: test
 
-test-all: # run tests for all configured Stackage releases
+test-all: # run all configured tests
 ifeq ($(MODE), cabal)
-> $(error test-all not supported in CABAL mode)
-endif
+> $(foreach GHC_VERSION,$(CABAL_TEST_GHC_VERSIONS), \
+    @command -v hr >/dev/null 2>&1 && hr $(GHC_VERSION) || true $(newline) \
+    @make test GHC_VERSION=$(GHC_VERSION) $(newline) \
+  )
+else
 > $(foreach CONFIG,$(STACK_TEST_CONFIGS), \
     @command -v hr >/dev/null 2>&1 && hr $(CONFIG) || true $(newline) \
     @make test CONFIG=$(CONFIG) $(newline) \
   )
+endif
 .PHONY: test-all
 
 test-nightly: # run tests for the latest Stackage nightly release
