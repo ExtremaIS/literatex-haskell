@@ -32,6 +32,12 @@ RPM_CONTAINER    ?= extremais/pkg-fedora-stack:34
 MAINTAINER_NAME  ?= Travis Cardwell
 MAINTAINER_EMAIL ?= travis.cardwell@extrema.is
 
+TEST_DEB_CONTAINER ?= debian:bullseye
+TEST_DEB_ARCH      ?= amd64
+TEST_RPM_CONTAINER ?= fedora:34
+TEST_RPM_OS        ?= fc34
+TEST_RPM_ARCH      ?= x86_64
+
 ##############################################################################
 # Make configuration
 
@@ -168,6 +174,16 @@ deb: # build .deb package for VERSION in a Debian container
 >   $(DEB_CONTAINER) \
 >   /home/docker/bin/make-deb.sh "$(SRC)"
 .PHONY: deb
+
+deb-test: # run a Debian container to test .deb package for VERSION
+> $(eval VERSION := $(call get_version))
+> $(eval PKG := "$(PROJECT)_$(VERSION)-1_$(TEST_DEB_ARCH).deb")
+> @test -f build/$(PKG) || $(call die,"build/$(PKG) not found")
+> @docker run --rm -it \
+>   -v $(PWD)/build/$(PKG):/tmp/$(PKG):ro \
+>   $(TEST_DEB_CONTAINER) \
+>   /bin/bash
+.PHONY: deb-test
 
 doc-api: hr
 doc-api: # build API documentation *
@@ -315,6 +331,16 @@ rpm: # build .rpm package for VERSION in a Fedora container
 >   $(RPM_CONTAINER) \
 >   /home/docker/bin/make-rpm.sh "$(SRC)"
 .PHONY: rpm
+
+rpm-test: # run a Fedora container to test .rpm package for VERSION
+> $(eval VERSION := $(call get_version))
+> $(eval PKG := "$(PROJECT)-$(VERSION)-1.$(TEST_RPM_OS).$(TEST_RPM_ARCH).rpm")
+> @test -f build/$(PKG) || $(call die,"build/$(PKG) not found")
+> @docker run --rm -it \
+>   -v $(PWD)/build/$(PKG):/tmp/$(PKG):ro \
+>   $(TEST_RPM_CONTAINER) \
+>   /bin/bash
+.PHONY: rpm-test
 
 sdist: # create source tarball for Hackage
 > $(eval BRANCH := $(shell git rev-parse --abbrev-ref HEAD))
