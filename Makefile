@@ -392,15 +392,25 @@ test-all: # run all configured tests
 ifeq ($(MODE), cabal)
 > $(foreach GHC_VERSION,$(CABAL_TEST_GHC_VERSIONS), \
     @command -v hr >/dev/null 2>&1 && hr $(GHC_VERSION) || true $(newline) \
-    @make test GHC_VERSION=$(GHC_VERSION) $(newline) \
+    @make test-doc GHC_VERSION=$(GHC_VERSION) $(newline) \
   )
 else
 > $(foreach CONFIG,$(STACK_TEST_CONFIGS), \
     @command -v hr >/dev/null 2>&1 && hr $(CONFIG) || true $(newline) \
-    @make test CONFIG=$(CONFIG) $(newline) \
+    @make test-doc CONFIG=$(CONFIG) $(newline) \
   )
 endif
 .PHONY: test-all
+
+test-doc: hr
+test-doc: # run tests and build API documentation *
+ifeq ($(MODE), cabal)
+> @cabal v2-test $(CABAL_ARGS) --enable-tests --test-show-details=always
+> @cabal v2-haddock $(CABAL_ARGS)
+else
+> @stack build $(STACK_ARGS) --haddock --test --bench --no-run-benchmarks
+endif
+.PHONY: test-doc
 
 test-nightly: # run tests for the latest Stackage nightly release
 ifeq ($(MODE), cabal)
