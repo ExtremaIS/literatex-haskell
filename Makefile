@@ -229,6 +229,10 @@ hssloc: # count lines of Haskell source
 > @$(call hs_files) | xargs wc -l | tail -n 1 | sed 's/^ *\([0-9]*\).*$$/\1/'
 .PHONY: hssloc
 
+ignored: # list files ignored by git
+> @git ls-files . --ignored --exclude-standard --others
+.PHONY: ignored
+
 install: install-bin
 install: install-man
 install: install-doc
