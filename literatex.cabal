@@ -79,7 +79,7 @@ executable literatex
   build-depends:
       ansi-wl-pprint >=0.6 && <0.7
     , base
-    , optparse-applicative >=0.14 && <0.17
+    , optparse-applicative >=0.14 && <0.18
     , literatex
     , ttc
   default-language: Haskell2010
