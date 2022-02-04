@@ -24,6 +24,12 @@ following conventions:
 
 [KaC]: <https://keepachangelog.com/en/1.0.0/>
 
+## 0.2.0.2 (2022-02-05)
+
+### Non-Breaking
+
+* Bump `optparse-applicative` dependency version upper bound
+
 ## 0.2.0.1 (2021-12-25)
 
 ### Non-Breaking

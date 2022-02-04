@@ -2,7 +2,7 @@
 -- |
 -- Module      : LiterateX
 -- Description : API
--- Copyright   : Copyright (c) 2021 Travis Cardwell
+-- Copyright   : Copyright (c) 2021-2022 Travis Cardwell
 -- License     : MIT
 --
 -- This module provides high-level as well as low-level API functions for
@@ -87,6 +87,8 @@ import qualified Paths_literatex as Project
 -- $Constants
 
 -- | LiterateX version string (\"@literatex-haskell X.X.X@\")
+--
+-- @since 0.0.1.0
 version :: String
 version = "literatex-haskell " ++ showVersion Project.version
 

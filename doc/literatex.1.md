@@ -24,7 +24,7 @@ highlighting and line numbers.
 -h, \--help
 :   show help and exit
 
---version
+\--version
 :   show version and exit
 
 -s, \--source *SOURCE*
@@ -50,16 +50,16 @@ highlighting and line numbers.
 -l, \--language *LANGUAGE*
 :   code language
 
---ignore-shebang
+\--ignore-shebang
 :   ignore shebangs
 
---no-code
+\--no-code
 :   do not display code
 
---no-numbers
+\--no-numbers
 :   do not number code lines
 
---no-highlight
+\--no-highlight
 :   do not highlight code
 
 -i, \--input *FILE*
@@ -168,7 +168,7 @@ Reporting issues:
     Email: <bugs@extrema.is>
 
 Copyright
-:   Copyright (c) 2021 Travis Cardwell
+:   Copyright (c) 2021-2022 Travis Cardwell
 
 License
 :   The MIT License <https://opensource.org/licenses/MIT>
