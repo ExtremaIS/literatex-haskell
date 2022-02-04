@@ -19,15 +19,16 @@
 * [CLI](#cli)
     * [Requirements](#requirements)
     * [Installation](#installation)
-        * [Installation From Source](#installation-from-source)
         * [`.deb` Package Installation](#deb-package-installation)
         * [`.rpm` Package Installation](#rpm-package-installation)
+        * [Installation From Hackage](#installation-from-hackage)
+        * [Installation From Stackage](#installation-from-stackage)
     * [Usage](#usage)
 * [Library](#library)
 * [Related Work](#related-work)
 * [Project](#project)
     * [Links](#links)
-    * [Releases](#releases)
+    * [Tags](#tags)
     * [Contribution](#contribution)
     * [License](#license)
 
@@ -261,29 +262,37 @@ macOS.
 
 ### Installation
 
-#### Installation From Source
-
-`literatex` can be built from source using [Stack][].  For example, you can
-install the latest release (to `/usr/local` on Linux) as follows:
-
-```
-$ git clone https://github.com/ExtremaIS/literatex-haskell.git
-$ cd literatex-haskell
-$ make
-$ sudo make install
-```
-
-[Stack]: <https://www.haskellstack.org>
-
 #### `.deb` Package Installation
 
 Check the [Releases][] page for `.deb` packages.
+
+[Releases]: <https://github.com/ExtremaIS/literatex-haskell/releases>
 
 #### `.rpm` Package Installation
 
 Check the [Releases][] page for `.rpm` packages.
 
-[Releases]: <https://github.com/ExtremaIS/literatex-haskell/releases>
+#### Installation From Hackage
+
+Install `literatex` from [Hackage][] using [Cabal][] as follows:
+
+```
+$ cabal v2-install literatex
+```
+
+[Hackage]: <https://hackage.haskell.org/package/literatex>
+[Cabal]: <https://www.haskell.org/cabal/>
+
+#### Installation From Stackage
+
+Install `literatex` from [Stackage][] using [Stack][] as follows:
+
+```
+$ stack install literatex
+```
+
+[Stackage]: <https://www.stackage.org/package/literatex>
+[Stack]: <https://haskellstack.org/>
 
 ### Usage
 
@@ -346,7 +355,7 @@ the [Notepad++][] (Windows editor).
 
 * GitHub: <https://github.com/ExtremaIS/literatex-haskell>
 
-### Releases
+### Tags
 
 All releases are tagged in the `main` branch.  Release tags are signed using
 the
