@@ -1,5 +1,5 @@
 name:           literatex
-version:        0.2.0.1
+version:        0.2.0.2
 category:       Utils
 synopsis:       transform literate source code to Markdown
 description:
