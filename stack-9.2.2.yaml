@@ -1,31 +1,4 @@
-resolver: ghc-9.2.2
+resolver: nightly-2022-03-19
 
 packages:
   - .
-
-extra-deps:
-  - ansi-terminal-0.11.1
-  - ansi-wl-pprint-0.6.9
-  - async-2.2.4
-  - call-stack-0.4.0
-  - clock-0.8.3
-  - colour-2.3.6
-  - conduit-1.3.4.2
-  - hashable-1.4.0.2
-  - mono-traversable-1.0.15.3
-  - optparse-applicative-0.17.0.0
-  - primitive-0.7.3.0
-  - resourcet-1.2.4.3
-  - split-0.2.3.4
-  - tagged-0.8.6.1
-  - tasty-1.4.2.1
-  - tasty-hunit-0.10.0.3
-  - transformers-compat-0.7.1
-  - ttc-1.2.0.0
-  - unbounded-delays-0.1.1.1
-  - unliftio-0.2.21.0
-  - unliftio-core-0.2.0.1
-  - unordered-containers-0.2.17.0
-  - vector-0.12.3.1
-  - vector-algorithms-0.8.0.4
-  - wcwidth-0.0.2
