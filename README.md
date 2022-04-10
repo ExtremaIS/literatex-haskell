@@ -328,6 +328,12 @@ The [lhs2tex][] utility is used to work with literate Haskell and LaTeX.
 
 [lhs2tex]: <https://github.com/kosmikus/lhs2tex>
 
+The [markdown-unlit][] utility is used to extract Haskell code from Markdown
+files.  This is useful in cases where the Markdown file is displayed on
+GitHub.
+
+[markdown-unlit]: <https://github.com/sol/markdown-unlit>
+
 The [src2md][] utility, written in Common Lisp, also supports multiple source
 formats.  It outputs Markdown that includes HTML, which limits the usefulness
 of the Markdown.
