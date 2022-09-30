@@ -212,9 +212,15 @@ grep: # grep all non-hidden files for expression E
 .PHONY: grep
 
 help: # show this help
-> @grep '^[a-zA-Z0-9_-]\+:[^#]*# ' $(MAKEFILE_LIST) \
->   | sed 's/^\([^:]\+\):[^#]*# \(.*\)/make \1\t\2/' \
->   | column -t -s $$'\t'
+> @if command -v column >/dev/null 2>&1 \
+>  ; then \
+>    grep '^[a-zA-Z0-9_-]\+:[^#]*# ' $(MAKEFILE_LIST) \
+>    | sed 's/^\([^:]\+\):[^#]*# \(.*\)/make \1\t\2/' \
+>    | column -t -s $$'\t' \
+>  ; else \
+>    grep '^[a-zA-Z0-9_-]\+:[^#]*# ' $(MAKEFILE_LIST) \
+>    | sed 's/^\([^:]\+\):[^#]*# \(.*\)/make \1\t\2/' \
+>  ; fi
 > @echo
 > @echo "Cabal mode (MODE=cabal)"
 > @echo "  * Set GHC_VERSION to specify a GHC version."
