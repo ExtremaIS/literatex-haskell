@@ -20,12 +20,22 @@ jobs:
       - name: Setup Haskell
         uses: haskell/actions/setup@v1
         with:
-          ghc-version: ${{ matrix.ghc }}
           cabal-version: latest
+          ghc-version: ${{ matrix.ghc }}
       - name: Build
-        run: cabal new-build --enable-tests --enable-benchmarks
+        run: |
+          if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
+            cabal v2-build --project-file=cabal-${{ matrix.ghc }}.project --enable-tests --enable-benchmarks
+          else
+            cabal v2-build --enable-tests --enable-benchmarks
+          fi
       - name: Test
-        run: cabal new-test --enable-tests
+        run: |
+          if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
+            cabal v2-test --project-file=cabal-${{ matrix.ghc }}.project --enable-tests
+          else
+            cabal v2-test --enable-tests
+          fi
 
   stack:
     name: "Stack: GHC ${{ matrix.ghc }}"
@@ -39,9 +49,9 @@ jobs:
       - name: Setup Haskell
         uses: haskell/actions/setup@v1
         with:
-          ghc-version: ${{ matrix.ghc }}
           cabal-version: latest
           enable-stack: true
+          ghc-version: ${{ matrix.ghc }}
           stack-version: latest
       - name: Cache ~/.stack
         uses: actions/cache@v1
@@ -58,20 +68,31 @@ jobs:
           STACK_YAML: stack-${{ matrix.ghc }}.yaml
 
   cabal:
-    name: "Cabal ${{ matrix.cabal }}: GHC 8.2.2"
+    name: "Cabal: ${{ matrix.cabal }} (GHC ${{ matrix.ghc }})"
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        cabal: ['2.4.1.0', '3.0.0.0', '3.2.0.0', '3.4.1.0', '3.6.2.0']
+        cabal: ['2.4.1.0', '3.0.0.0', '3.2.0.0', '3.4.1.0', '3.6.2.0', '3.8.1.0']
+        ghc: ['8.2.2']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup Haskell
         uses: haskell/actions/setup@v1
         with:
-          ghc-version: 8.2.2
           cabal-version: ${{ matrix.cabal }}
+          ghc-version: ${{ matrix.ghc }}
       - name: Build
-        run: cabal new-build --enable-tests --enable-benchmarks
+        run: |
+          if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
+            cabal v2-build --project-file=cabal-${{ matrix.ghc }}.project --enable-tests --enable-benchmarks
+          else
+            cabal v2-build --enable-tests --enable-benchmarks
+          fi
       - name: Test
-        run: cabal new-test --enable-tests
+        run: |
+          if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
+            cabal v2-test --project-file=cabal-${{ matrix.ghc }}.project --enable-tests
+          else
+            cabal v2-test --enable-tests
+          fi
