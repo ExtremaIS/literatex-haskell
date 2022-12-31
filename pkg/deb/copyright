@@ -1,5 +1,5 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: literatex-haskell
 Upstream-Contact: Travis Cardwell <travis.cardwell@extrema.is>
-Copyright: Copyright (c) 2021-2022 Travis Cardwell
+Copyright: Copyright (c) 2021-2023 Travis Cardwell
 License: MIT
