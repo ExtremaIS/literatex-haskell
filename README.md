@@ -204,10 +204,20 @@ this source format, documentation is not written in comments.  Instead, lines
 that contain source code are prefixes with a greater-than sign and a space
 (`> `).
 
-Note that this source format does not support source code rules.
+Note that GHC cannot parse Literate Haskell source that uses
+[ATX-style headings](https://pandoc.org/MANUAL.html#atx-style-headings) (using
+`#` characters before the heading text), so
+[setext-style headings](https://pandoc.org/MANUAL.html#setext-style-headings)
+(underlining the heading text with `=` or `-` on the following line) must be
+used instead, as in the example below.  Some Markdown software supports
+underlining with `~` for a level-three heading, while other software is
+limited to two levels.
+
+Also note that this source format does not support source code rules.
 
 ``` lhaskell
-# Literate Haskell Example
+Literate Haskell Example
+========================
 
 Executables are implemented using a `Main` module that exposes a function
 named `main`.
