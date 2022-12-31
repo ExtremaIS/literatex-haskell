@@ -8,33 +8,61 @@ on:
       - main
 
 jobs:
-  latest-cabal:
+  cabal:
     name: "Cabal: GHC ${{ matrix.ghc }}"
     runs-on: ubuntu-latest
     strategy:
       matrix:
         ghc: ['8.2.2', '8.4.4', '8.6.5', '8.8.4', '8.10.7', '9.0.2', '9.2.5', '9.4.4']
+    env:
+      CONFIG: "--enable-tests --enable-benchmarks"
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Haskell
-        uses: haskell/actions/setup@v1
+        uses: haskell/actions/setup@v2
         with:
           cabal-version: latest
           ghc-version: ${{ matrix.ghc }}
+      - name: Update
+        run: cabal v2-update
+      - name: Freeze
+        run: |
+          if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
+            cabal v2-freeze --project-file=cabal-${{ matrix.ghc }}.project $CONFIG
+          else
+            cabal v2-freeze $CONFIG
+          fi
+      - name: Setup Cache
+        run: echo "CURR_MONTH=$(date +%Y%m)" | tee -a "$GITHUB_ENV"
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cabal/store
+            dist-newstyle
+          key: ${{ runner.os }}-${{ env.CURR_MONTH }}-cabal-${{ matrix.ghc }}-${{ hashFiles('cabal.project.freeze') }}
+          restore-keys: ${{ runner.os }}-${{ env.CURR_MONTH }}-cabal-${{ matrix.ghc }}-
       - name: Build
         run: |
           if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
-            cabal v2-build --project-file=cabal-${{ matrix.ghc }}.project --enable-tests --enable-benchmarks
+            cabal v2-build --project-file=cabal-${{ matrix.ghc }}.project $CONFIG
           else
-            cabal v2-build --enable-tests --enable-benchmarks
+            cabal v2-build $CONFIG
           fi
       - name: Test
         run: |
           if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
-            cabal v2-test --project-file=cabal-${{ matrix.ghc }}.project --enable-tests
+            cabal v2-test --project-file=cabal-${{ matrix.ghc }}.project $CONFIG
           else
-            cabal v2-test --enable-tests
+            cabal v2-test $CONFIG
+          fi
+      - name: Haddock
+        run: |
+          if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
+            cabal v2-haddock --project-file=cabal-${{ matrix.ghc }}.project $CONFIG
+          else
+            cabal v2-haddock $CONFIG
           fi
 
   stack:
@@ -43,56 +71,89 @@ jobs:
     strategy:
       matrix:
         ghc: ['8.2.2', '8.4.4', '8.6.5', '8.8.4', '8.10.7', '9.0.2', '9.2.5', '9.4.4']
+    env:
+      STACK_YAML: stack-${{ matrix.ghc }}.yaml
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Haskell
-        uses: haskell/actions/setup@v1
+        uses: haskell/actions/setup@v2
         with:
           cabal-version: latest
           enable-stack: true
           ghc-version: ${{ matrix.ghc }}
           stack-version: latest
-      - name: Cache ~/.stack
-        uses: actions/cache@v1
+      - name: Setup Cache
+        run: echo "CURR_MONTH=$(date +%Y%m)" | tee -a "$GITHUB_ENV"
+      - name: Cache
+        uses: actions/cache@v3
         with:
-          path: ~/.stack
-          key: ${{ runner.os }}-${{ matrix.ghc }}-stack
+          path: |
+            ~/.stack
+            .stack-work
+          key: ${{ runner.os }}-${{ env.CURR_MONTH }}-stack-${{ matrix.ghc }}-${{ hashFiles('ttc.cabal', env.STACK_YAML) }}
+          restore-keys: ${{ runner.os }}-${{ env.CURR_MONTH }}-stack-${{ matrix.ghc }}-
       - name: Build
         run: stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks
-        env:
-          STACK_YAML: stack-${{ matrix.ghc }}.yaml
       - name: Test
         run: stack test --system-ghc
-        env:
-          STACK_YAML: stack-${{ matrix.ghc }}.yaml
+      - name: Haddock
+        run: stack haddock --system-ghc
 
-  cabal:
-    name: "Cabal: ${{ matrix.cabal }} (GHC ${{ matrix.ghc }})"
+  cabal-version:
+    name: "Cabal ${{ matrix.cabal }} (GHC ${{ matrix.ghc }})"
     runs-on: ubuntu-latest
     strategy:
       matrix:
         cabal: ['2.4.1.0', '3.0.0.0', '3.2.0.0', '3.4.1.0', '3.6.2.0', '3.8.1.0']
         ghc: ['8.2.2']
+    env:
+      CONFIG: "--enable-tests --enable-benchmarks"
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Haskell
-        uses: haskell/actions/setup@v1
+        uses: haskell/actions/setup@v2
         with:
           cabal-version: ${{ matrix.cabal }}
           ghc-version: ${{ matrix.ghc }}
+      - name: Update
+        run: cabal v2-update
+      - name: Freeze
+        run: |
+          if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
+            cabal v2-freeze --project-file=cabal-${{ matrix.ghc }}.project $CONFIG
+          else
+            cabal v2-freeze $CONFIG
+          fi
+      - name: Setup Cache
+        run: echo "CURR_MONTH=$(date +%Y%m)" | tee -a "$GITHUB_ENV"
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cabal/store
+            dist-newstyle
+          key: ${{ runner.os }}-${{ env.CURR_MONTH }}-cabal-version-${{ matrix.cabal }}-${{ hashFiles('cabal.project.freeze') }}
+          restore-keys: ${{ runner.os }}-${{ env.CURR_MONTH }}-cabal-version-${{ matrix.cabal }}-
       - name: Build
         run: |
           if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
-            cabal v2-build --project-file=cabal-${{ matrix.ghc }}.project --enable-tests --enable-benchmarks
+            cabal v2-build --project-file=cabal-${{ matrix.ghc }}.project $CONFIG
           else
-            cabal v2-build --enable-tests --enable-benchmarks
+            cabal v2-build $CONFIG
           fi
       - name: Test
         run: |
           if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
-            cabal v2-test --project-file=cabal-${{ matrix.ghc }}.project --enable-tests
+            cabal v2-test --project-file=cabal-${{ matrix.ghc }}.project $CONFIG
           else
-            cabal v2-test --enable-tests
+            cabal v2-test $CONFIG
+          fi
+      - name: Haddock
+        run: |
+          if [ -f "cabal-${{ matrix.ghc }}.project" ] ; then
+            cabal v2-haddock --project-file=cabal-${{ matrix.ghc }}.project $CONFIG
+          else
+            cabal v2-haddock $CONFIG
           fi
