@@ -1,0 +1,4 @@
+resolver: lts-20.13
+
+packages:
+  - .
