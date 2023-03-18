@@ -100,6 +100,41 @@ jobs:
       - name: Haddock
         run: stack haddock --system-ghc
 
+  stack-bounds:
+    name: "Stack Bounds (GHC ${{ matrix.ghc }})"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ghc: ['9.6.1']
+    env:
+      STACK_YAML: stack-bounds.yaml
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Haskell
+        uses: haskell/actions/setup@v2
+        with:
+          cabal-version: latest
+          enable-stack: true
+          ghc-version: ${{ matrix.ghc }}
+          stack-version: latest
+      - name: Setup Cache
+        run: echo "CURR_MONTH=$(date +%Y%m)" | tee -a "$GITHUB_ENV"
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.stack
+            .stack-work
+          key: ${{ runner.os }}-${{ env.CURR_MONTH }}-stack-${{ matrix.ghc }}-${{ hashFiles('ttc.cabal', env.STACK_YAML) }}
+          restore-keys: ${{ runner.os }}-${{ env.CURR_MONTH }}-stack-${{ matrix.ghc }}-
+      - name: Build
+        run: stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks
+      - name: Test
+        run: stack test --system-ghc
+      - name: Haddock
+        run: stack haddock --system-ghc
+
   cabal-version:
     name: "Cabal ${{ matrix.cabal }} (GHC ${{ matrix.ghc }})"
     runs-on: ubuntu-latest
