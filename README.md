@@ -201,7 +201,7 @@ Languages that use Lisp semicolon comments include the following:
 [GHC](https://www.haskell.org/ghc/) has special support for
 [literate programming](https://wiki.haskell.org/Literate_programming).  With
 this source format, documentation is not written in comments.  Instead, lines
-that contain source code are prefixes with a greater-than sign and a space
+that contain source code are prefixed with a greater-than sign and a space
 (`> `).
 
 Note that GHC cannot parse Literate Haskell source that uses
