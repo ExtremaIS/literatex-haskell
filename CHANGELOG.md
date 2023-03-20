@@ -26,6 +26,10 @@ following conventions:
 
 ## Unreleased
 
+### Breaking
+
+* Add `MdBook` target format
+
 ### Non-Breaking
 
 * Bump TTC dependency version upper bound

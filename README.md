@@ -42,6 +42,8 @@ supported, and the following target formats are supported:
 
 * [Pandoc Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown)
 * [GitHub Flavored Markdown](https://github.github.com/gfm/)
+* [mdBook Markdown](https://rust-lang.github.io/mdBook/), which does not
+  support per-block line numbering
 
 LiterateX can be used to document code that is particularly important or
 difficult to understand.  For example, documentation can be written in the SQL
