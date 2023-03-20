@@ -2,7 +2,7 @@ packages: ./literatex.cabal
 
 -- LiterateX works fine with GHC 8.4.4 and `vector-0.13`, but Haddock
 -- documentation fails to build.  This constraint allows documentation to
--- build in this case.
+-- build.
 
 constraints:
   vector < 0.13
