@@ -124,9 +124,9 @@ endef
 build: hr
 build: # build package *
 ifeq ($(MODE), cabal)
-> cabal v2-build $(CABAL_ARGS)
+> cabal v2-build $(CABAL_ARGS) --enable-tests --enable-benchmarks
 else
-> stack build $(STACK_ARGS)
+> stack build $(STACK_ARGS) --test --bench --no-run-tests --no-run-benchmarks
 endif
 .PHONY: build
 
@@ -201,7 +201,7 @@ endif
 examples: hr
 examples: # build examples *
 ifeq ($(MODE), cabal)
-> cabal v2-build $(CABAL_ARGS) literatex -f examples
+> cabal v2-build $(CABAL_ARGS) exe:literatex -f examples
 else
 > stack build $(STACK_ARGS) --flag literatex:examples
 endif
@@ -442,19 +442,31 @@ else
 endif
 .PHONY: test-all
 
-test-doc: hr
-test-doc: # run tests and build API documentation *
-ifeq ($(MODE), cabal)
-> @cabal v2-test $(CABAL_ARGS) --enable-tests --test-show-details=always
-> @cabal v2-haddock $(CABAL_ARGS)
-else
-> @stack build $(STACK_ARGS) --haddock --test --bench --no-run-benchmarks
+test-bounds-lower: # test lower bounds (Cabal only)
+ifeq ($(MODE), stack)
+> $(error test-bounds-lower not supported in Stack mode)
 endif
-.PHONY: test-doc
+> @make test-build CABAL_ARGS="--project-file=cabal-bounds-lower.project"
+.PHONY: test-bounds-lower
 
-test-nightly: # run tests for the latest Stackage nightly release
+test-bounds-upper: # test upper bounds (Cabal only)
+ifeq ($(MODE), stack)
+> $(error test-bounds-upper not supported in Stack mode)
+endif
+> @make test-build CABAL_ARGS="--project-file=cabal-bounds-upper.project"
+.PHONY: test-bounds-upper
+
+test-build: hr
+test-build: build
+test-build: test
+test-build: doc-api
+test-build: examples
+test-build: # build, run tests, build API documentation, build examples *
+.PHONY: test-build
+
+test-nightly: # run tests for the latest Stackage nightly release (Stack only)
 ifeq ($(MODE), cabal)
-> $(error test-nightly not supported in CABAL mode)
+> $(error test-nightly not supported in Cabal mode)
 endif
 > @make test RESOLVER=nightly
 .PHONY: test-nightly
