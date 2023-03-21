@@ -8,26 +8,6 @@ EXECUTABLES := literatex
 
 MODE ?= stack
 
-CABAL_TEST_GHC_VERSIONS += 8.2.2
-CABAL_TEST_GHC_VERSIONS += 8.4.4
-CABAL_TEST_GHC_VERSIONS += 8.6.5
-CABAL_TEST_GHC_VERSIONS += 8.8.4
-CABAL_TEST_GHC_VERSIONS += 8.10.7
-CABAL_TEST_GHC_VERSIONS += 9.0.2
-CABAL_TEST_GHC_VERSIONS += 9.2.7
-CABAL_TEST_GHC_VERSIONS += 9.4.4
-CABAL_TEST_GHC_VERSIONS += 9.6.1
-
-STACK_TEST_CONFIGS += stack-8.2.2.yaml
-STACK_TEST_CONFIGS += stack-8.4.4.yaml
-STACK_TEST_CONFIGS += stack-8.6.5.yaml
-STACK_TEST_CONFIGS += stack-8.8.4.yaml
-STACK_TEST_CONFIGS += stack-8.10.7.yaml
-STACK_TEST_CONFIGS += stack-9.0.2.yaml
-STACK_TEST_CONFIGS += stack-9.2.7.yaml
-STACK_TEST_CONFIGS += stack-9.4.4.yaml
-STACK_TEST_CONFIGS += stack-9.6.1.yaml
-
 DESTDIR ?=
 PREFIX  ?= /usr/local
 
@@ -76,9 +56,6 @@ else ifeq ($(MODE), stack)
   endif
   ifneq ($(origin RESOLVER), undefined)
     STACK_ARGS += --resolver "$(RESOLVER)"
-  endif
-  ifneq ($(origin STACK_NIX_PATH), undefined)
-    STACK_ARGS += "--nix-path=$(STACK_NIX_PATH)"
   endif
 else
   $(error unknown MODE: $(MODE))
@@ -231,7 +208,6 @@ help: # show this help
 > @echo "Stack mode (MODE=stack)"
 > @echo "  * Set CONFIG to specify a stack.yaml file."
 > @echo "  * Set RESOLVER to specify a Stack resolver."
-> @echo "  * Set STACK_NIX_PATH to specify a Stack Nix path."
 .PHONY: help
 
 hlint: # run hlint on all Haskell source
@@ -428,18 +404,8 @@ else
 endif
 .PHONY: test
 
-test-all: # run all configured tests
-ifeq ($(MODE), cabal)
-> $(foreach GHC_VERSION,$(CABAL_TEST_GHC_VERSIONS), \
-    @command -v hr >/dev/null 2>&1 && hr $(GHC_VERSION) || true $(newline) \
-    @make test-doc GHC_VERSION=$(GHC_VERSION) $(newline) \
-  )
-else
-> $(foreach CONFIG,$(STACK_TEST_CONFIGS), \
-    @command -v hr >/dev/null 2>&1 && hr $(CONFIG) || true $(newline) \
-    @make test-doc CONFIG=$(CONFIG) $(newline) \
-  )
-endif
+test-all: # run all configured tests and build examples using MODE
+> @./test-all.sh "$(MODE)"
 .PHONY: test-all
 
 test-bounds-lower: # test lower bounds (Cabal only)
