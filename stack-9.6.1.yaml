@@ -22,7 +22,7 @@ extra-deps:
   - tasty-1.4.3
   - tasty-hunit-0.10.0.3
   - transformers-compat-0.7.2
-  - ttc-1.2.0.0
+  - ttc-1.2.1.0
   - unliftio-0.2.24.0
   - unliftio-core-0.2.1.0
   - unordered-containers-0.2.19.1
