@@ -404,7 +404,11 @@ the [Notepad++][] (Windows editor).
 
 ### Links
 
+* Hackage: <https://hackage.haskell.org/package/literatex>
+* Stackage: <https://www.stackage.org/package/literatex>
+* Flora: <https://flora.pm/packages/@hackage/literatex>
 * GitHub: <https://github.com/ExtremaIS/literatex-haskell>
+* GitHub Actions CI: <https://github.com/ExtremaIS/literatex-haskell/actions>
 
 ### Branches
 
