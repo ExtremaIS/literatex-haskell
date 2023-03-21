@@ -226,12 +226,13 @@ Languages that use Lisp semicolon comments include the following:
 
 ### Literate Haskell
 
-[GHC][] has special support for [literate programming][].  Haskell source code
-is usually written with documentation in comments, in files with a `.hs`
-extension.  Literate Haskell source code gives documentation the leading role
-and prefixes code with a greater-than sign and space (`> `), in files with a
-`.lhs` extension.  The documentation can be in any format, and [Markdown][] is
-a popular choice.
+[GHC][] has special support for
+[literate programming](https://wiki.haskell.org/Literate_programming).
+Haskell source code is usually written with documentation in comments, in
+files with a `.hs` extension.  Literate Haskell source code gives
+documentation the leading role and prefixes code with a greater-than sign and
+space (`> `), in files with a `.lhs` extension.  The documentation can be in
+any format, and [Markdown][] is a popular choice.
 
 Unfortunately, there is a [bug][] that causes problems when using
 [ATX-style headings][] (`#` characters before the heading text).  Any easy
@@ -260,7 +261,6 @@ This simple example just prints "Hello!" to the screen.
 ```
 
 [GHC]: <https://www.haskell.org/ghc/>
-[literate programming]: <https://wiki.haskell.org/Literate_programming>
 [Markdown]: <https://en.wikipedia.org/wiki/Markdown>
 [bug]: <https://gitlab.haskell.org/ghc/ghc/-/issues/4836>
 [ATX-style headings]: <https://pandoc.org/MANUAL.html#atx-style-headings>
