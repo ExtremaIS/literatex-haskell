@@ -46,6 +46,7 @@ highlighting and line numbers.
 
     * `pandoc` - Pandoc Markdown
     * `github` - GitHub Flavored Markdown
+    * `mdbook` - mdBook Markdown
 
 -l, \--language *LANGUAGE*
 :   code language
