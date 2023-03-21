@@ -12,14 +12,14 @@ DESTDIR ?=
 PREFIX  ?= /usr/local
 
 DEB_CONTAINER    ?= extremais/pkg-debian-stack:bullseye
-RPM_CONTAINER    ?= extremais/pkg-fedora-stack:34
+RPM_CONTAINER    ?= extremais/pkg-fedora-stack:37
 MAINTAINER_NAME  ?= Travis Cardwell
 MAINTAINER_EMAIL ?= travis.cardwell@extrema.is
 
 TEST_DEB_CONTAINER ?= debian:bullseye
 TEST_DEB_ARCH      ?= amd64
-TEST_RPM_CONTAINER ?= fedora:34
-TEST_RPM_OS        ?= fc34
+TEST_RPM_CONTAINER ?= fedora:37
+TEST_RPM_OS        ?= fc37
 TEST_RPM_ARCH      ?= x86_64
 
 ##############################################################################
