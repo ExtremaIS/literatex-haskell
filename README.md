@@ -406,6 +406,22 @@ the [Notepad++][] (Windows editor).
 
 * GitHub: <https://github.com/ExtremaIS/literatex-haskell>
 
+### Branches
+
+The `main` branch is reserved for releases.  It may be considered stable, and
+`HEAD` is always the latest release.
+
+The `develop` branch is the primary development branch.  It contains changes
+that have not yet been released, and it is not necessarily stable.
+
+[Hackage revisions][] are made for metadata changes, such as relaxation of
+constraints when new versions of dependencies are released.  The
+`literatex.cabal` metadata in the `main` branch may therefore not match that
+of Hackage.  The `literatex.cabal` metadata in the `develop` branch may match,
+*unless* work is being done on a new release that contains other changes.
+
+[Hackage revisions]: <https://github.com/haskell-infra/hackage-trustees/blob/master/revisions-information.md#hackage-metadata-revisions--what-they-are-how-they-work>
+
 ### Tags
 
 All releases are tagged in the `main` branch.  Release tags are signed using
