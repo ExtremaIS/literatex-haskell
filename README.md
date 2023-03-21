@@ -200,22 +200,21 @@ Languages that use Lisp semicolon comments include the following:
 
 ### Literate Haskell
 
-[GHC](https://www.haskell.org/ghc/) has special support for
-[literate programming](https://wiki.haskell.org/Literate_programming).  With
-this source format, documentation is not written in comments.  Instead, lines
-that contain source code are prefixed with a greater-than sign and a space
-(`> `).
+[GHC][] has special support for [literate programming][].  Haskell source code
+is usually written with documentation in comments, in files with a `.hs`
+extension.  Literate Haskell source code gives documentation the leading role
+and prefixes code with a greater-than sign and space (`> `), in files with a
+`.lhs` extension.  The documentation can be in any format, and [Markdown][] is
+a popular choice.
 
-Note that GHC cannot parse Literate Haskell source that uses
-[ATX-style headings](https://pandoc.org/MANUAL.html#atx-style-headings) (using
-`#` characters before the heading text), so
-[setext-style headings](https://pandoc.org/MANUAL.html#setext-style-headings)
-(underlining the heading text with `=` or `-` on the following line) must be
-used instead, as in the example below.  Some Markdown software supports
-underlining with `~` for a level-three heading, while other software is
-limited to two levels.
+Unfortunately, there is a [bug][] that causes problems when using
+[ATX-style headings][] (`#` characters before the heading text).  Any easy
+workaround is to use [setext-style headings][] (underlines) instead, but this
+limits the number of heading levels.  See the
+[Literate Haskell Markdown Headings][] blog post for more information and an
+example workaround.
 
-Also note that this source format does not support source code rules.
+This source format does not support source code rules.
 
 ``` lhaskell
 Literate Haskell Example
@@ -233,6 +232,14 @@ The `main` function is run when the program is executed.
 
 This simple example just prints "Hello!" to the screen.
 ```
+
+[GHC]: <https://www.haskell.org/ghc/>
+[literate programming]: <https://wiki.haskell.org/Literate_programming>
+[Markdown]: <https://en.wikipedia.org/wiki/Markdown>
+[bug]: <https://gitlab.haskell.org/ghc/ghc/-/issues/4836>
+[ATX-style headings]: <https://pandoc.org/MANUAL.html#atx-style-headings>
+[setext-style headings]: <https://pandoc.org/MANUAL.html#setext-style-headings>
+[Literate Haskell Markdown Headings]: <https://www.extrema.is/blog/2023/03/21/literate-haskell-markdown-headings>
 
 ### Percent Comments
 
