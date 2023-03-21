@@ -40,18 +40,15 @@ the file to Markdown, optionally including the source code with syntax
 highlighting and line numbers.  Many [source formats](#source-formats) are
 supported, and the following target formats are supported:
 
-* [Pandoc Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown)
-* [GitHub Flavored Markdown](https://github.github.com/gfm/)
-* [mdBook Markdown](https://rust-lang.github.io/mdBook/), which does not
-  support per-block line numbering
+* [Pandoc Markdown][]
+* [GitHub Flavored Markdown][]
+* [mdBook Markdown][], which does not support per-block line numbering
 
 LiterateX can be used to document code that is particularly important or
 difficult to understand.  For example, documentation can be written in the SQL
 file that defines the schema for a complex database.  LiterateX can translate
 the `.sql` file to a Markdown file, which can then be converted to HTML, PDF,
 or even EPUB with [Pandoc][].
-
-[Pandoc]: <https://pandoc.org/>
 
 LiterateX can also be used in the publishing of blog entries, magazine
 articles, or books.  Use the [command-line utility](#cli) or integrate the
@@ -65,6 +62,10 @@ only used to make the source code easier to scan quickly, they are ignored
 LiterateX also has support for [shebang][] lines at the start of the file.
 They can be ignored so that they do not precede the documentation.
 
+[Pandoc Markdown]: <https://pandoc.org/MANUAL.html#pandocs-markdown>
+[GitHub Flavored Markdown]: <https://github.github.com/gfm/>
+[mdBook Markdown]: <https://rust-lang.github.io/mdBook/>
+[Pandoc]: <https://pandoc.org/>
 [shebang]: <https://en.wikipedia.org/wiki/Shebang_(Unix)>
 
 ## Source Formats
@@ -99,11 +100,17 @@ main = putStrLn "Hello!"
 
 Languages that use double-dash comments include the following:
 
-* [Elm](https://elm-lang.org/)
-* [Haskell](https://www.haskell.org/)
-* [Idris](https://www.idris-lang.org/)
-* [Lua](http://www.lua.org/)
-* [SQL](https://en.wikipedia.org/wiki/SQL)
+* [Elm][]
+* [Haskell][]
+* [Idris][]
+* [Lua][]
+* [SQL][]
+
+[Elm]: <https://elm-lang.org/>
+[Haskell]: <https://www.haskell.org/>
+[Idris]: <https://www.idris-lang.org/>
+[Lua]: <http://www.lua.org/>
+[SQL]: <https://en.wikipedia.org/wiki/SQL>
 
 ### Double-Slash Comments
 
@@ -127,17 +134,26 @@ fn main() {
 Languages that use double-slash comments include the following:
 
 * [C][]
-* [CSS](https://en.wikipedia.org/wiki/CSS)
-* [Go](https://golang.org/)
-* [Java](https://www.java.com/)
-* [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
-* [Kotlin](https://kotlinlang.org/)
-* [PHP](https://www.php.net/)
-* [Rust](https://www.rust-lang.org/)
-* [Scala](https://www.scala-lang.org/)
-* [TypeScript](https://www.typescriptlang.org/)
+* [CSS][]
+* [Go][]
+* [Java][]
+* [JavaScript][]
+* [Kotlin][]
+* [PHP][]
+* [Rust][]
+* [Scala][]
+* [TypeScript][]
 
 [C]: <https://en.wikipedia.org/wiki/C_(programming_language)>
+[CSS]: <https://en.wikipedia.org/wiki/CSS>
+[Go]: <https://golang.org/>
+[Java]: <https://www.java.com/>
+[JavaScript]: <https://en.wikipedia.org/wiki/JavaScript>
+[Kotlin]: <https://kotlinlang.org/>
+[PHP]: <https://www.php.net/>
+[Rust]: <https://www.rust-lang.org/>
+[Scala]: <https://www.scala-lang.org/>
+[TypeScript]: <https://www.typescriptlang.org/>
 
 ### Hash Comments
 
@@ -158,12 +174,19 @@ print("Hello!")
 
 Languages that use hash comments include the following:
 
-* [Bash](https://www.gnu.org/software/bash/)
-* [Elixir](https://elixir-lang.org/)
-* [Perl](https://www.perl.org/)
-* [Python](https://www.python.org/)
-* [R](https://www.r-project.org/)
-* [Ruby](https://www.ruby-lang.org/)
+* [Bash][]
+* [Elixir][]
+* [Perl][]
+* [Python][]
+* [R][]
+* [Ruby][]
+
+[Bash]: <https://www.gnu.org/software/bash/>
+[Elixir]: <https://elixir-lang.org/>
+[Perl]: <https://www.perl.org/>
+[Python]: <https://www.python.org/>
+[R]: <https://www.r-project.org/>
+[Ruby]: <https://www.ruby-lang.org/>
 
 ### Lisp Semicolon Comments
 
@@ -191,11 +214,14 @@ as source code rules and are ignored.
 
 Languages that use Lisp semicolon comments include the following:
 
-* [Clojure](https://clojure.org/)
-* [Common Lisp](https://common-lisp.net/)
-* [Racket](https://racket-lang.org/)
+* [Clojure][]
+* [Common Lisp][]
+* [Racket][]
 * [Scheme][]
 
+[Clojure]: <https://clojure.org/>
+[Common Lisp]: <https://common-lisp.net/>
+[Racket]: <https://racket-lang.org/>
 [Scheme]: <https://en.wikipedia.org/wiki/Scheme_(programming_language)>
 
 ### Literate Haskell
@@ -267,8 +293,11 @@ start() -> io.fwrite("Hello!\n").
 
 Languages that use percent comments include the following:
 
-* [Erlang](https://www.erlang.org/)
-* [LaTeX](https://www.latex-project.org/)
+* [Erlang][]
+* [LaTeX][]
+
+[Erlang]: <https://www.erlang.org/>
+[LaTeX]: <https://www.latex-project.org/>
 
 ## CLI
 
@@ -315,7 +344,9 @@ $ stack install literatex
 
 ### Usage
 
-See the [`literatex` man page](doc/literatex.1.md) for usage information.
+See the [`literatex` man page][] for usage information.
+
+[`literatex` man page]: <doc/literatex.1.md>
 
 ## Library
 
@@ -337,38 +368,33 @@ transforms actual source code files, the source code has to be written in
 whatever order is required by the language.  Those interested in writing code
 in different order are encouraged to check out [noweb][] and [CWEB][].
 
-[Literate programming]: <https://en.wikipedia.org/wiki/Literate_programming>
-[Donald Knuth]: <https://en.wikipedia.org/wiki/Donald_Knuth>
-[the main idea]: <https://www-cs-faculty.stanford.edu/~knuth/cweb.html>
-[noweb]: <https://en.wikipedia.org/wiki/Noweb>
-[CWEB]: <https://en.wikipedia.org/wiki/CWEB>
-
 The [lhs2tex][] utility is used to work with literate Haskell and LaTeX.
-
-[lhs2tex]: <https://github.com/kosmikus/lhs2tex>
 
 The [markdown-unlit][] utility is used to extract Haskell code from Markdown
 files.  This is useful in cases where the Markdown file is displayed on
 GitHub.
 
-[markdown-unlit]: <https://github.com/sol/markdown-unlit>
-
 The [src2md][] utility, written in Common Lisp, also supports multiple source
 formats.  It outputs Markdown that includes HTML, which limits the usefulness
 of the Markdown.
 
-[src2md]: <https://git.sr.ht/~aerique/src2markup>
-
 The [extract-documentation-comments][] utility, written in JavaScript,
 extracts documentation from multi-line JavaScript comments.
-
-[extract-documentation-comments]: <https://github.com/Anadian/extract-documentation-comments#readme>
 
 [mlp.clj][], written in Clojure, is a [babashka][] script that transforms
 literate Clojure source code to Markdown, including HTML.  The author uses it
 to implement a [live preview][] of literate Clojure documentation while using
 the [Notepad++][] (Windows editor).
 
+[Literate programming]: <https://en.wikipedia.org/wiki/Literate_programming>
+[Donald Knuth]: <https://en.wikipedia.org/wiki/Donald_Knuth>
+[the main idea]: <https://www-cs-faculty.stanford.edu/~knuth/cweb.html>
+[noweb]: <https://en.wikipedia.org/wiki/Noweb>
+[CWEB]: <https://en.wikipedia.org/wiki/CWEB>
+[lhs2tex]: <https://github.com/kosmikus/lhs2tex>
+[markdown-unlit]: <https://github.com/sol/markdown-unlit>
+[src2md]: <https://git.sr.ht/~aerique/src2markup>
+[extract-documentation-comments]: <https://github.com/Anadian/extract-documentation-comments#readme>
 [mlp.clj]: <https://github.com/linpengcheng/ClojureBoxNpp/blob/master/Notepad%2B%2B/tools/clj/mlp.clj>
 [babashka]: <https://github.com/babashka/babashka#readme>
 [live preview]: <https://github.com/linpengcheng/ClojureBoxNpp/tree/master/Notepad%2B%2B/plugins/Config/PreviewHTML>
@@ -383,8 +409,9 @@ the [Notepad++][] (Windows editor).
 ### Tags
 
 All releases are tagged in the `main` branch.  Release tags are signed using
-the
-[`security@extrema.is` GPG key](http://keys.gnupg.net/pks/lookup?op=vindex&fingerprint=on&search=0x1D484E4B4705FADF).
+the [`security@extrema.is` GPG key][].
+
+[`security@extrema.is` GPG key]: <http://keys.gnupg.net/pks/lookup?op=vindex&fingerprint=on&search=0x1D484E4B4705FADF>
 
 ### Contribution
 
@@ -395,6 +422,8 @@ Issues may also be submitted via email to <bugs@extrema.is>.
 
 ### License
 
-This project is released under the
-[MIT License](https://opensource.org/licenses/MIT) as specified in the
-[`LICENSE`](LICENSE) file.
+This project is released under the [MIT License][] as specified in the
+[`LICENSE`][] file.
+
+[MIT License]: <https://opensource.org/licenses/MIT>
+[`LICENSE`]: <LICENSE>
