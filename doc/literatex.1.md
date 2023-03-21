@@ -46,6 +46,7 @@ highlighting and line numbers.
 
     * `pandoc` - Pandoc Markdown
     * `github` - GitHub Flavored Markdown
+    * `mdbook` - mdBook Markdown
 
 -l, \--language *LANGUAGE*
 :   code language
@@ -168,7 +169,7 @@ Reporting issues:
     Email: <bugs@extrema.is>
 
 Copyright
-:   Copyright (c) 2021-2022 Travis Cardwell
+:   Copyright (c) 2021-2023 Travis Cardwell
 
 License
 :   The MIT License <https://opensource.org/licenses/MIT>

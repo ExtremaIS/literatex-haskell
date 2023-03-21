@@ -24,6 +24,17 @@ following conventions:
 
 [KaC]: <https://keepachangelog.com/en/1.0.0/>
 
+## 0.2.1.0 (2023-03-21)
+
+### Breaking
+
+* Add `MdBook` target format
+
+### Non-Breaking
+
+* Bump TTC dependency version upper bound
+* Adjust dependency constraints to match tested versions
+
 ## 0.2.0.2 (2022-02-05)
 
 ### Non-Breaking

@@ -2,7 +2,7 @@
 -- |
 -- Module      : Main
 -- Description : literatex command-line utility
--- Copyright   : Copyright (c) 2021-2022 Travis Cardwell
+-- Copyright   : Copyright (c) 2021-2023 Travis Cardwell
 -- License     : MIT
 ------------------------------------------------------------------------------
 

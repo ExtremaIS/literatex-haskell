@@ -2,7 +2,7 @@
 -- |
 -- Module      : LiterateX.Types.TargetFormat
 -- Description : target format type
--- Copyright   : Copyright (c) 2021-2022 Travis Cardwell
+-- Copyright   : Copyright (c) 2021-2023 Travis Cardwell
 -- License     : MIT
 ------------------------------------------------------------------------------
 
@@ -36,10 +36,17 @@ import LiterateX.Types.CodeLanguage (CodeLanguage)
 --
 -- This sum type defines the supported target formats.
 --
--- @since 0.0.1.0
+-- Documentation:
+--
+-- * [Pandoc Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown)
+-- * [GitHub Flavored Markdown](https://github.github.com/gfm/)
+-- * [mdBook Markdown](https://rust-lang.github.io/mdBook/)
+--
+-- @since 0.2.1.0
 data TargetFormat
   = PandocMarkdown
   | GitHubFlavoredMarkdown
+  | MdBook
   deriving (Bounded, Enum, Eq, Ord, Show)
 
 instance TTC.Parse TargetFormat where
@@ -49,6 +56,7 @@ instance TTC.Render TargetFormat where
   render = TTC.fromS . \case
     PandocMarkdown         -> "pandoc"
     GitHubFlavoredMarkdown -> "github"
+    MdBook                 -> "mdbook"
 
 ------------------------------------------------------------------------------
 -- $API
@@ -60,6 +68,7 @@ describe :: TargetFormat -> String
 describe = \case
     PandocMarkdown         -> "Pandoc Markdown"
     GitHubFlavoredMarkdown -> "GitHub Flavored Markdown"
+    MdBook                 -> "mdBook Markdown"
 
 ------------------------------------------------------------------------------
 
@@ -83,9 +92,12 @@ mkEndCode _anyFormat = "```"
 
 -- | Make line in the target format to begin a block of code
 --
--- Note that this function is written to indicate how it is used.  Given the
--- target format, optional code language, and line numbering flag, this
--- function returns a function that takes a line number and returns a line.
+-- This function is written to indicate how it is used.  Given the target
+-- format, optional code language, and line numbering flag, this function
+-- returns a function that takes a line number and returns a line.
+--
+-- The 'MdBook' format does not support per-block line numbering, so the line
+-- numbering flag is ignored for that format.
 --
 -- @since 0.0.1.0
 mkBeginCode
@@ -97,19 +109,22 @@ mkBeginCode PandocMarkdown (Just lang) True = \lineNum -> T.concat
     [ "``` {.", TTC.render lang, " .numberSource startFrom=\""
     , TTC.renderWithShow lineNum, "\"}"
     ]
-mkBeginCode GitHubFlavoredMarkdown (Just lang) True = \lineNum -> T.concat
-    [ "``` ", TTC.render lang, " startline=", TTC.renderWithShow lineNum
-    ]
 mkBeginCode PandocMarkdown (Just lang) False = const $ T.concat
     [ "```", TTC.render lang
-    ]
-mkBeginCode GitHubFlavoredMarkdown (Just lang) False = const $ T.concat
-    [ "``` ", TTC.render lang
     ]
 mkBeginCode PandocMarkdown Nothing True = \lineNum -> T.concat
     [ "``` {.numberSource startFrom=\"", TTC.renderWithShow lineNum, "\"}"
     ]
+mkBeginCode GitHubFlavoredMarkdown (Just lang) True = \lineNum -> T.concat
+    [ "``` ", TTC.render lang, " startline=", TTC.renderWithShow lineNum
+    ]
+mkBeginCode GitHubFlavoredMarkdown (Just lang) False = const $ T.concat
+    [ "``` ", TTC.render lang
+    ]
 mkBeginCode GitHubFlavoredMarkdown Nothing True = \lineNum -> T.concat
     [ "``` startline=", TTC.renderWithShow lineNum
     ]
-mkBeginCode _anyFormat Nothing False = const "```"
+mkBeginCode MdBook (Just lang) _isNumbered = const $ T.concat
+    [ "```", TTC.render lang
+    ]
+mkBeginCode _anyFormat Nothing _isNumbered = const "```"

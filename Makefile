@@ -8,34 +8,18 @@ EXECUTABLES := literatex
 
 MODE ?= stack
 
-CABAL_TEST_GHC_VERSIONS += 8.2.2
-CABAL_TEST_GHC_VERSIONS += 8.4.4
-CABAL_TEST_GHC_VERSIONS += 8.6.5
-CABAL_TEST_GHC_VERSIONS += 8.8.4
-CABAL_TEST_GHC_VERSIONS += 8.10.7
-CABAL_TEST_GHC_VERSIONS += 9.0.2
-CABAL_TEST_GHC_VERSIONS += 9.2.1
-
-STACK_TEST_CONFIGS += stack-8.2.2.yaml
-STACK_TEST_CONFIGS += stack-8.4.4.yaml
-STACK_TEST_CONFIGS += stack-8.6.5.yaml
-STACK_TEST_CONFIGS += stack-8.8.4.yaml
-STACK_TEST_CONFIGS += stack-8.10.7.yaml
-STACK_TEST_CONFIGS += stack-9.0.2.yaml
-STACK_TEST_CONFIGS += stack-9.2.1.yaml
-
 DESTDIR ?=
 PREFIX  ?= /usr/local
 
 DEB_CONTAINER    ?= extremais/pkg-debian-stack:bullseye
-RPM_CONTAINER    ?= extremais/pkg-fedora-stack:34
+RPM_CONTAINER    ?= extremais/pkg-fedora-stack:37
 MAINTAINER_NAME  ?= Travis Cardwell
 MAINTAINER_EMAIL ?= travis.cardwell@extrema.is
 
 TEST_DEB_CONTAINER ?= debian:bullseye
 TEST_DEB_ARCH      ?= amd64
-TEST_RPM_CONTAINER ?= fedora:34
-TEST_RPM_OS        ?= fc34
+TEST_RPM_CONTAINER ?= fedora:37
+TEST_RPM_OS        ?= fc37
 TEST_RPM_ARCH      ?= x86_64
 
 ##############################################################################
@@ -72,9 +56,6 @@ else ifeq ($(MODE), stack)
   endif
   ifneq ($(origin RESOLVER), undefined)
     STACK_ARGS += --resolver "$(RESOLVER)"
-  endif
-  ifneq ($(origin STACK_NIX_PATH), undefined)
-    STACK_ARGS += "--nix-path=$(STACK_NIX_PATH)"
   endif
 else
   $(error unknown MODE: $(MODE))
@@ -120,9 +101,9 @@ endef
 build: hr
 build: # build package *
 ifeq ($(MODE), cabal)
-> cabal v2-build $(CABAL_ARGS)
+> cabal v2-build $(CABAL_ARGS) --enable-tests --enable-benchmarks
 else
-> stack build $(STACK_ARGS)
+> stack build $(STACK_ARGS) --test --bench --no-run-tests --no-run-benchmarks
 endif
 .PHONY: build
 
@@ -197,7 +178,7 @@ endif
 examples: hr
 examples: # build examples *
 ifeq ($(MODE), cabal)
-> cabal v2-build $(CABAL_ARGS) literatex -f examples
+> cabal v2-build $(CABAL_ARGS) exe:literatex -f examples
 else
 > stack build $(STACK_ARGS) --flag literatex:examples
 endif
@@ -210,9 +191,15 @@ grep: # grep all non-hidden files for expression E
 .PHONY: grep
 
 help: # show this help
-> @grep '^[a-zA-Z0-9_-]\+:[^#]*# ' $(MAKEFILE_LIST) \
->   | sed 's/^\([^:]\+\):[^#]*# \(.*\)/make \1\t\2/' \
->   | column -t -s $$'\t'
+> @if command -v column >/dev/null 2>&1 \
+>  ; then \
+>    grep '^[a-zA-Z0-9_-]\+:[^#]*# ' $(MAKEFILE_LIST) \
+>    | sed 's/^\([^:]\+\):[^#]*# \(.*\)/make \1\t\2/' \
+>    | column -t -s $$'\t' \
+>  ; else \
+>    grep '^[a-zA-Z0-9_-]\+:[^#]*# ' $(MAKEFILE_LIST) \
+>    | sed 's/^\([^:]\+\):[^#]*# \(.*\)/make \1\t\2/' \
+>  ; fi
 > @echo
 > @echo "Cabal mode (MODE=cabal)"
 > @echo "  * Set GHC_VERSION to specify a GHC version."
@@ -221,7 +208,6 @@ help: # show this help
 > @echo "Stack mode (MODE=stack)"
 > @echo "  * Set CONFIG to specify a stack.yaml file."
 > @echo "  * Set RESOLVER to specify a Stack resolver."
-> @echo "  * Set STACK_NIX_PATH to specify a Stack Nix path."
 .PHONY: help
 
 hlint: # run hlint on all Haskell source
@@ -418,33 +404,35 @@ else
 endif
 .PHONY: test
 
-test-all: # run all configured tests
-ifeq ($(MODE), cabal)
-> $(foreach GHC_VERSION,$(CABAL_TEST_GHC_VERSIONS), \
-    @command -v hr >/dev/null 2>&1 && hr $(GHC_VERSION) || true $(newline) \
-    @make test-doc GHC_VERSION=$(GHC_VERSION) $(newline) \
-  )
-else
-> $(foreach CONFIG,$(STACK_TEST_CONFIGS), \
-    @command -v hr >/dev/null 2>&1 && hr $(CONFIG) || true $(newline) \
-    @make test-doc CONFIG=$(CONFIG) $(newline) \
-  )
-endif
+test-all: # run all configured tests and build examples using MODE
+> @./test-all.sh "$(MODE)"
 .PHONY: test-all
 
-test-doc: hr
-test-doc: # run tests and build API documentation *
-ifeq ($(MODE), cabal)
-> @cabal v2-test $(CABAL_ARGS) --enable-tests --test-show-details=always
-> @cabal v2-haddock $(CABAL_ARGS)
-else
-> @stack build $(STACK_ARGS) --haddock --test --bench --no-run-benchmarks
+test-bounds-lower: # test lower bounds (Cabal only)
+ifeq ($(MODE), stack)
+> $(error test-bounds-lower not supported in Stack mode)
 endif
-.PHONY: test-doc
+> @make test-build CABAL_ARGS="--project-file=cabal-bounds-lower.project"
+.PHONY: test-bounds-lower
 
-test-nightly: # run tests for the latest Stackage nightly release
+test-bounds-upper: # test upper bounds (Cabal only)
+ifeq ($(MODE), stack)
+> $(error test-bounds-upper not supported in Stack mode)
+endif
+> @make test-build CABAL_ARGS="--project-file=cabal-bounds-upper.project"
+.PHONY: test-bounds-upper
+
+test-build: hr
+test-build: build
+test-build: test
+test-build: doc-api
+test-build: examples
+test-build: # build, run tests, build API documentation, build examples *
+.PHONY: test-build
+
+test-nightly: # run tests for the latest Stackage nightly release (Stack only)
 ifeq ($(MODE), cabal)
-> $(error test-nightly not supported in CABAL mode)
+> $(error test-nightly not supported in Cabal mode)
 endif
 > @make test RESOLVER=nightly
 .PHONY: test-nightly

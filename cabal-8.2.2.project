@@ -1,0 +1,9 @@
+packages: ./literatex.cabal
+
+-- LiterateX works fine with GHC 8.2.2, `text-2`, and `vector-0.13`, but
+-- Haddock documentation fails to build.  These constraints allow
+-- documentation to build.
+
+constraints:
+    text < 2
+  , vector < 0.13

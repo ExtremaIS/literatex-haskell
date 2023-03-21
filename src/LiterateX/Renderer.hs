@@ -2,7 +2,7 @@
 -- |
 -- Module      : LiterateX.Renderer
 -- Description : target renderer
--- Copyright   : Copyright (c) 2021-2022 Travis Cardwell
+-- Copyright   : Copyright (c) 2021-2023 Travis Cardwell
 -- License     : MIT
 --
 -- This module implements the target renderer.
