@@ -33,6 +33,7 @@ following conventions:
 ### Non-Breaking
 
 * Bump TTC dependency version upper bound
+* Adjust dependency constraints to match tested versions
 
 ## 0.2.0.2 (2022-02-05)
 
