@@ -6,12 +6,14 @@
 -- License     : MIT
 ------------------------------------------------------------------------------
 
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE RecordWildCards #-}
 
-module Main (main) where
+#if MIN_VERSION_ansi_wl_pprint (1,0,2)
+{-# OPTIONS_GHC -Wno-warnings-deprecations #-}
+#endif
 
--- https://hackage.haskell.org/package/ansi-wl-pprint
-import Text.PrettyPrint.ANSI.Leijen (Doc)
+module Main (main) where
 
 -- https://hackage.haskell.org/package/base
 import Control.Applicative (optional)
@@ -191,19 +193,19 @@ main = do
               ]
           ]
 
-    sourceFormatHelp :: Doc
+    sourceFormatHelp :: LibOA.Doc
     sourceFormatHelp = LibOA.section "SOURCE options:" $ LibOA.table_ 2
       [ [TTC.render format, SourceFormat.describe format]
       | format <- SourceFormat.list
       ]
 
-    targetFormatHelp :: Doc
+    targetFormatHelp :: LibOA.Doc
     targetFormatHelp = LibOA.section "TARGET options:" $ LibOA.table_ 2
       [ [TTC.render format, TargetFormat.describe format]
       | format <- TargetFormat.list
       ]
 
-    defaultsHelp :: Doc
+    defaultsHelp :: LibOA.Doc
     defaultsHelp = LibOA.section "Default options:" $ LibOA.table_ 2
       [ [ext, TTC.render lang ++ " (" ++ TTC.render format ++ ")"]
       | (ext, (format, lang)) <- SourceDefaults.extensionDefaults

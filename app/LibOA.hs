@@ -9,14 +9,18 @@
 -- @optparse-applicative@.  I do not feel that it is worth maintaining yet
 -- another helper package on Hackage, so I just copy the code to different
 -- projects as required.  If the library grows to a substantial size or others
--- with to use it, I will reconsider.
+-- want to use it, I will reconsider.
 --
--- Revision: 2022-01-02
+-- Revision: 2023-05-24
 ------------------------------------------------------------------------------
 
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE TupleSections #-}
+
+#if MIN_VERSION_ansi_wl_pprint (1,0,2)
+{-# OPTIONS_GHC -Wno-warnings-deprecations #-}
+#endif
 
 module LibOA
   ( -- * Options
@@ -26,6 +30,7 @@ module LibOA
     -- * Utilities
   , commands
     -- * Help
+  , Doc
   , (<||>)
   , section
   , table

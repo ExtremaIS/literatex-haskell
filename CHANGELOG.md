@@ -26,6 +26,10 @@ following conventions:
 
 ## Unreleased
 
+### Non-Breaking
+
+* Bump `ansi-wl-pprint` dependency version upper bound
+
 ## 0.2.1.0 (2023-03-21)
 
 ### Breaking

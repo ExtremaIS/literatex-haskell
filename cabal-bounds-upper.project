@@ -4,7 +4,7 @@ with-compiler: ghc-9.6.1
 
 constraints:
     -- https://hackage.haskell.org/package/ansi-wl-pprint
-    ansi-wl-pprint == 0.6.9
+    ansi-wl-pprint == 1.0.2
 
     -- https://hackage.haskell.org/package/base
     -- GHC boot library
@@ -21,7 +21,7 @@ constraints:
   , filepath == 1.4.100.3
 
     -- https://hackage.haskell.org/package/optparse-applicative
-  , optparse-applicative == 0.17.0.0
+  , optparse-applicative == 0.17.1.0
 
     -- https://hackage.haskell.org/package/tasty
   , tasty == 1.4.3
