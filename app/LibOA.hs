@@ -18,8 +18,10 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE TupleSections #-}
 
+#if defined(MIN_VERSION_ansi_wl_pprint)
 #if MIN_VERSION_ansi_wl_pprint (1,0,2)
 {-# OPTIONS_GHC -Wno-warnings-deprecations #-}
+#endif
 #endif
 
 module LibOA
@@ -39,8 +41,10 @@ module LibOA
   ) where
 
 -- https://hackage.haskell.org/package/ansi-wl-pprint
+#if !MIN_VERSION_optparse_applicative (0,18,0)
 import qualified Text.PrettyPrint.ANSI.Leijen as Doc
 import Text.PrettyPrint.ANSI.Leijen (Doc)
+#endif
 
 -- https://hackage.haskell.org/package/base
 import Data.List (intersperse, transpose)
@@ -55,7 +59,15 @@ import qualified Options.Applicative as OA
 import qualified Options.Applicative.Builder.Internal as OABI
 #endif
 import qualified Options.Applicative.Common as OAC
+#if MIN_VERSION_optparse_applicative (0,18,0)
+import Options.Applicative.Help.Pretty (Doc)
+#endif
 import qualified Options.Applicative.Types as OAT
+
+-- https://hackage.haskell.org/package/prettyprinter
+#if MIN_VERSION_optparse_applicative (0,18,0)
+import qualified Prettyprinter as Doc
+#endif
 
 ------------------------------------------------------------------------------
 -- $Options
@@ -108,8 +120,12 @@ versioner verStr = OA.infoOption verStr $ mconcat
 commands :: OA.Parser a -> [String]
 commands =
     let go _ opt = case OAT.optMain opt of
+#if MIN_VERSION_optparse_applicative (0,18,0)
+           OAT.CmdReader _ cmdPs -> reverse $ fst <$> cmdPs
+#else
            OAT.CmdReader _ cmds _ -> reverse cmds
-           _otherReader           -> []
+#endif
+           _otherReader -> []
     in  concat . OAC.mapParser go
 
 ------------------------------------------------------------------------------
@@ -122,20 +138,20 @@ infixr 5 <||>
 
 -- | Create a section with a title and indented body
 section :: String -> Doc -> Doc
-section title = (Doc.text title Doc.<$$>) . Doc.indent 2
+section title doc = docString title <> Doc.line <> Doc.indent 2 doc
 
 -- | Create a table, with formatting
 table :: Int -> [[(String, Doc -> Doc)]] -> Doc
 table sep rows = Doc.vcat $
-    map (fromMaybe Doc.empty . foldr go Nothing . zip lengths) rows
+    map (fromMaybe docEmpty . foldr go Nothing . zip lengths) rows
   where
     lengths :: [Int]
     lengths = map ((+) sep . maximum . map (length . fst)) $ transpose rows
 
     go :: (Int, (String, Doc -> Doc)) -> Maybe Doc -> Maybe Doc
     go (len, (s, f)) = Just . \case
-      Just doc -> Doc.fill len (f $ Doc.string s) <> doc
-      Nothing  -> f $ Doc.string s
+      Just doc -> Doc.fill len (f $ docString s) <> doc
+      Nothing  -> f $ docString s
 
 -- | Create a table, without formatting
 table_ :: Int -> [[String]] -> Doc
@@ -144,3 +160,20 @@ table_ sep = table sep . (map . map) (, id)
 -- | Vertically space documents with blank lines between them
 vspace :: [Doc] -> Doc
 vspace = mconcat . intersperse (Doc.line <> Doc.line)
+
+------------------------------------------------------------------------------
+-- $Internal
+
+docEmpty :: Doc
+#if MIN_VERSION_optparse_applicative (0,18,0)
+docEmpty = Doc.emptyDoc
+#else
+docEmpty = Doc.empty
+#endif
+
+docString :: String -> Doc
+#if MIN_VERSION_optparse_applicative (0,18,0)
+docString = Doc.pretty
+#else
+docString = Doc.string
+#endif

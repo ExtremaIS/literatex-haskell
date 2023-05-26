@@ -26,6 +26,10 @@ following conventions:
 
 ## Unreleased
 
+## Breaking
+
+* Add support for `optparse-applicative` `0.18`
+
 ### Non-Breaking
 
 * Bump `ansi-wl-pprint` dependency version upper bound

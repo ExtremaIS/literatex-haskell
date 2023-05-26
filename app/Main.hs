@@ -9,8 +9,10 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE RecordWildCards #-}
 
+#if defined(MIN_VERSION_ansi_wl_pprint)
 #if MIN_VERSION_ansi_wl_pprint (1,0,2)
 {-# OPTIONS_GHC -Wno-warnings-deprecations #-}
+#endif
 #endif
 
 module Main (main) where
