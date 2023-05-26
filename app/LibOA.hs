@@ -11,7 +11,7 @@
 -- projects as required.  If the library grows to a substantial size or others
 -- want to use it, I will reconsider.
 --
--- Revision: 2023-05-24
+-- Revision: 2023-05-26
 ------------------------------------------------------------------------------
 
 {-# LANGUAGE CPP #-}
@@ -32,12 +32,18 @@ module LibOA
     -- * Utilities
   , commands
     -- * Help
-  , Doc
   , (<||>)
   , section
+  , section'
   , table
   , table_
   , vspace
+    -- ** Compatibility
+  , Doc
+  , (<$$>)
+  , empty
+  , string
+  , vcat
   ) where
 
 -- https://hackage.haskell.org/package/ansi-wl-pprint
@@ -136,22 +142,26 @@ commands =
 d1 <||> d2 = d1 <> Doc.line <> Doc.line <> d2
 infixr 5 <||>
 
--- | Create a section with a title and indented body
+-- | Create a section with a title and body indented by 2 spaces
 section :: String -> Doc -> Doc
-section title doc = docString title <> Doc.line <> Doc.indent 2 doc
+section = section' 2
+
+-- | Create a section with a title and body indented by specified spaces
+section' :: Int -> String -> Doc -> Doc
+section' numSpaces title = (string title <$$>) . Doc.indent numSpaces
 
 -- | Create a table, with formatting
 table :: Int -> [[(String, Doc -> Doc)]] -> Doc
 table sep rows = Doc.vcat $
-    map (fromMaybe docEmpty . foldr go Nothing . zip lengths) rows
+    map (fromMaybe empty . foldr go Nothing . zip lengths) rows
   where
     lengths :: [Int]
     lengths = map ((+) sep . maximum . map (length . fst)) $ transpose rows
 
     go :: (Int, (String, Doc -> Doc)) -> Maybe Doc -> Maybe Doc
     go (len, (s, f)) = Just . \case
-      Just doc -> Doc.fill len (f $ docString s) <> doc
-      Nothing  -> f $ docString s
+      Just doc -> Doc.fill len (f $ string s) <> doc
+      Nothing  -> f $ string s
 
 -- | Create a table, without formatting
 table_ :: Int -> [[String]] -> Doc
@@ -162,18 +172,28 @@ vspace :: [Doc] -> Doc
 vspace = mconcat . intersperse (Doc.line <> Doc.line)
 
 ------------------------------------------------------------------------------
--- $Internal
+-- $Compatibility
 
-docEmpty :: Doc
+(<$$>) :: Doc -> Doc -> Doc
 #if MIN_VERSION_optparse_applicative (0,18,0)
-docEmpty = Doc.emptyDoc
+l <$$> r = l <> Doc.line <> r
 #else
-docEmpty = Doc.empty
+(<$$>) = (Doc.<$$>)
 #endif
 
-docString :: String -> Doc
+empty :: Doc
 #if MIN_VERSION_optparse_applicative (0,18,0)
-docString = Doc.pretty
+empty = Doc.emptyDoc
 #else
-docString = Doc.string
+empty = Doc.empty
 #endif
+
+string :: String -> Doc
+#if MIN_VERSION_optparse_applicative (0,18,0)
+string = Doc.pretty
+#else
+string = Doc.string
+#endif
+
+vcat :: [Doc] -> Doc
+vcat = Doc.vcat
