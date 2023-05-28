@@ -1,5 +1,5 @@
 name:           literatex
-version:        0.2.1.0
+version:        0.3.0.0
 category:       Utils
 synopsis:       transform literate source code to Markdown
 description:
@@ -24,9 +24,9 @@ tested-with:
    || ==8.8.4
    || ==8.10.7
    || ==9.0.2
-   || ==9.2.7
-   || ==9.4.4
-   || ==9.6.1
+   || ==9.2.8
+   || ==9.4.5
+   || ==9.6.2
 
 extra-source-files:
   CHANGELOG.md
@@ -40,9 +40,11 @@ flag examples
   description: build examples
   default: False
 
-flag write-hie
-  description: write .hie files
+-- This flag is referenced in the Stack build-constraints.yaml configuration.
+flag optparse-applicative_ge_0_18
+  description: Use optparse-applicative 0.18 or newer
   default: False
+  manual: False
 
 library
   hs-source-dirs: src
@@ -68,10 +70,7 @@ library
   default-language: Haskell2010
   default-extensions:
       OverloadedStrings
-  if flag(write-hie)
-    ghc-options: -Wall -fwrite-ide-info -hiedir=.hie
-  else
-    ghc-options: -Wall
+  ghc-options: -Wall
 
 executable literatex
   hs-source-dirs: app
@@ -79,11 +78,17 @@ executable literatex
   other-modules:
       LibOA
   build-depends:
-      ansi-wl-pprint >=0.6.8 && <0.7
-    , base
-    , optparse-applicative >=0.13 && <0.18
+      base
     , literatex
     , ttc
+  if flag(optparse-applicative_ge_0_18)
+    build-depends:
+        optparse-applicative >=0.18 && <0.19
+      , prettyprinter >=1.7.1 && <1.8
+  else
+    build-depends:
+        ansi-wl-pprint >=0.6.8 && <1.1
+      , optparse-applicative >=0.13 && <0.18
   default-language: Haskell2010
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
 

@@ -1,4 +1,0 @@
-resolver: nightly-2023-03-20
-
-packages:
-  - .

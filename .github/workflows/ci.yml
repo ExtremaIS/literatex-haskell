@@ -129,8 +129,17 @@ jobs:
         run: stack test --system-ghc
       - name: Haddock
         run: stack haddock --system-ghc
-      - name: Examples
-        run: stack build --system-ghc --flag literatex:examples
+##############################################################################
+# NOTE Examples are currently disabled for Stack.
+#
+# The optparse-applicative_ge_0_18 flag needs to be set manually when using
+# Stack, and this is done in the stack.yaml configuration files.  Examples are
+# built using a flag as well, though, and specifying a flag on the command
+# line makes stack ignore the flag setting within the configuration file,
+# resulting in build failures.
+#
+#      - name: Examples
+#        run: stack build --system-ghc --flag literatex:examples
 
   bounds-lower:
     name: "Lower Bounds (GHC ${{ matrix.ghc }})"
