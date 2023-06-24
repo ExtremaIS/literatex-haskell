@@ -1,4 +1,4 @@
-resolver: nightly-2023-06-23
+resolver: nightly-2023-06-24
 
 packages:
   - .
@@ -6,7 +6,3 @@ packages:
 flags:
   literatex:
     optparse-applicative_ge_0_18: true
-
-extra-deps:
-  - tasty-1.4.3
-  - tasty-hunit-0.10.0.3
