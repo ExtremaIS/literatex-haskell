@@ -9,7 +9,7 @@ constraints:
 
     -- https://hackage.haskell.org/package/bytestring
     -- GHC boot library
-  , bytestring == 0.11.4.0
+  , bytestring == 0.12.0.0
 
     -- https://hackage.haskell.org/package/conduit
   , conduit == 1.3.5
@@ -38,4 +38,9 @@ constraints:
   , ttc == 1.2.1.0
 
     -- https://hackage.haskell.org/package/unliftio
-  , unliftio == 0.2.24.0
+  , unliftio == 0.2.25.0
+
+allow-newer:
+    hashable:bytestring
+  , text-2.0.2:bytestring
+  , unix:bytestring

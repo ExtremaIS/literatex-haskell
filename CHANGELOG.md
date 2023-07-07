@@ -26,6 +26,10 @@ following conventions:
 
 ## Unreleased
 
+### Non-Breaking
+
+* Bump `bytestring` dependency version upper bound
+
 ## 0.3.0.0 (2023-05-28)
 
 ## Breaking
