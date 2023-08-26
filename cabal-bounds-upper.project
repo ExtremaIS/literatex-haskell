@@ -9,14 +9,14 @@ constraints:
 
     -- https://hackage.haskell.org/package/bytestring
     -- GHC boot library
-  , bytestring == 0.12.0.0
+  , bytestring == 0.12.0.2
 
     -- https://hackage.haskell.org/package/conduit
   , conduit == 1.3.5
 
     -- https://hackage.haskell.org/package/filepath
     -- GHC boot library
-  , filepath == 1.4.100.3
+  , filepath == 1.4.100.4
 
     -- https://hackage.haskell.org/package/optparse-applicative
   , optparse-applicative == 0.18.1.0
@@ -32,7 +32,7 @@ constraints:
 
     -- https://hackage.haskell.org/package/text
     -- (GHC boot library from GHC 8.4)
-  , text == 2.0.2
+  , text == 2.1
 
     -- https://hackage.haskell.org/package/ttc
   , ttc == 1.2.1.0
@@ -42,5 +42,4 @@ constraints:
 
 allow-newer:
     hashable:bytestring
-  , text-2.0.2:bytestring
-  , unix:bytestring
+  , hashable:text
