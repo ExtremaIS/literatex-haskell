@@ -137,7 +137,7 @@ test-suite literatex-test
     , bytestring
     , filepath >=1.4.1.2 && <1.5
     , literatex
-    , tasty >=0.12 && <1.5
+    , tasty >=0.12 && <1.6
     , tasty-hunit >=0.8 && <0.11
     , text
     , ttc
