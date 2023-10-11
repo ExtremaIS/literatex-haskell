@@ -6,7 +6,11 @@
 
 ## Tests
 
+## Compatibility
+
 ## Documentation
+
+## Examples
 
 ## Project
 
