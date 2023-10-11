@@ -1,11 +1,11 @@
 packages: ./literatex.cabal
 
-with-compiler: ghc-9.6.3
+with-compiler: ghc-9.8.1
 
 constraints:
     -- https://hackage.haskell.org/package/base
     -- GHC boot library
-    base == 4.18.1.0
+    base == 4.19.0.0
 
     -- https://hackage.haskell.org/package/bytestring
     -- GHC boot library
@@ -41,5 +41,5 @@ constraints:
   , unliftio == 0.2.25.0
 
 allow-newer:
-    hashable:bytestring
-  , hashable:text
+    exceptions:template-haskell
+  , safe-exceptions:deepseq

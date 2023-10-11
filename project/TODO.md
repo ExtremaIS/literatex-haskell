@@ -8,6 +8,12 @@
 
 ## Compatibility
 
+* Remove `allow-newer` entries in `cabal-bounds-upper.project`
+    * [`exceptions`](https://hackage.haskell.org/package/exceptions)
+      when support `template-haskell` `2.21.0.0`
+    * [`safe-exceptions`](https://hackage.haskell.org/package/safe-exceptions)
+      when support `deepseq` `1.5.0.0`
+
 ## Documentation
 
 ## Examples

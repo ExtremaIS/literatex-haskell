@@ -28,6 +28,7 @@ following conventions:
 
 ### Non-Breaking
 
+* Bump `base` dependency version upper bound
 * Bump `bytestring` dependency version upper bound
 * Bump `tasty` dependency version upper bound
 * Bump `text` dependency version upper bound
