@@ -39,6 +39,3 @@ constraints:
 
     -- https://hackage.haskell.org/package/unliftio
   , unliftio == 0.2.25.0
-
-allow-newer:
-    exceptions:template-haskell
