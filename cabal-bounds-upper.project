@@ -42,4 +42,3 @@ constraints:
 
 allow-newer:
     exceptions:template-haskell
-  , safe-exceptions:deepseq
