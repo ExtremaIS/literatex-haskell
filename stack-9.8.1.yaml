@@ -28,8 +28,9 @@ extra-deps:
   - tagged-0.8.8
   - tasty-1.5
   - tasty-hunit-0.10.1
+  - text-short-0.1.5
   - transformers-compat-0.7.2
-  - ttc-1.3.0.0
+  - ttc-1.4.0.0
   - unliftio-0.2.25.0
   - unliftio-core-0.2.1.0
   - unordered-containers-0.2.19.1
