@@ -8,6 +8,10 @@
 
 ## Compatibility
 
+* [`filepath`](https://hackage.haskell.org/package/filepath)
+  `1.5.0.0` blocked by
+  [`process`](https://hackage.haskell.org/package/process)
+
 ## Documentation
 
 ## Examples
