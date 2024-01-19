@@ -2,7 +2,7 @@
 -- |
 -- Module      : LiterateX.Types
 -- Description : type re-exports for convenience
--- Copyright   : Copyright (c) 2021-2023 Travis Cardwell
+-- Copyright   : Copyright (c) 2021-2024 Travis Cardwell
 -- License     : MIT
 --
 -- The type modules are generally imported qualified, so the types are
