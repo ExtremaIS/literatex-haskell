@@ -9,8 +9,8 @@
 ## Compatibility
 
 * [`filepath`](https://hackage.haskell.org/package/filepath)
-  `1.5.0.0` blocked by
-  [`process`](https://hackage.haskell.org/package/process)
+  `1.5.2.0` blocked by
+  [`hashable`](https://hackage.haskell.org/package/hashable)
 
 ## Documentation
 
