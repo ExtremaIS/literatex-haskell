@@ -16,7 +16,7 @@ constraints:
 
     -- https://hackage.haskell.org/package/filepath
     -- GHC boot library
-  , filepath == 1.4.200.1
+  , filepath == 1.5.2.0
 
     -- https://hackage.haskell.org/package/optparse-applicative
   , optparse-applicative == 0.18.1.0

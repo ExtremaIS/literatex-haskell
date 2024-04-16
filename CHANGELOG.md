@@ -30,6 +30,7 @@ following conventions:
 
 * Bump `base` dependency version upper bound
 * Bump `bytestring` dependency version upper bound
+* Bump `filepath` dependency version upper bound
 * Bump `tasty` dependency version upper bound
 * Bump `text` dependency version upper bound
 * Bump `ttc` dependency version upper bound
