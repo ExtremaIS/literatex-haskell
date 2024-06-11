@@ -104,7 +104,7 @@ jobs:
           cabal-version: latest
           cabal-update: true
           enable-stack: true
-          stack-version: latest
+          stack-version: 2.15.7
       - name: Setup Environment
         run: |
           GHC_VERSION=$(ghc --numeric-version)
