@@ -29,7 +29,7 @@ import qualified LiterateX.Types.SourceFormat as SourceFormat
 -- @since 0.0.1.0
 defaultsFor :: FilePath -> Maybe (SourceFormat, CodeLanguage)
 defaultsFor path =
-  fmap snd . flip find extensionDefaults $ flip isSuffixOf path . fst
+    fmap snd . flip find extensionDefaults $ flip isSuffixOf path . fst
 
 ------------------------------------------------------------------------------
 
