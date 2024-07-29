@@ -21,8 +21,7 @@ extra-doc-files:
   README.md
 
 tested-with:
-  GHC ==8.6.5
-   || ==8.8.4
+  GHC ==8.8.4
    || ==8.10.7
    || ==9.0.2
    || ==9.2.8
