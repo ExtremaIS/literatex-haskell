@@ -28,8 +28,9 @@ following conventions:
 
 ### Breaking
 
+* Remove support for GHC 8.4, constraining lower bounds
 * Remove support for GHC 8.2, constraining lower bounds
-* Change minimal Cabal from 1.24 to 2.2
+* Change minimal Cabal from 1.24 to 2.4
 
 ### Non-Breaking
 
