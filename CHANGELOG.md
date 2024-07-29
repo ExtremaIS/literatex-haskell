@@ -4,7 +4,7 @@ This project follows the [Haskell package versioning policy][PVP], with
 versions in `A.B.C.D` format.  `A` may be incremented arbitrarily for
 non-technical reasons, but [semantic versioning][SemVer] is otherwise
 followed, where `A.B` is the major version, `C` is the minor version, and `D`
-is the patch version.  Initial development uses versions `0.0.0.D`, for which
+is the patch version.  Initial development uses versions `0.0.C.D`, for which
 every version is considered breaking.
 
 [PVP]: <https://pvp.haskell.org/>
@@ -25,6 +25,11 @@ following conventions:
 [KaC]: <https://keepachangelog.com/en/1.0.0/>
 
 ## Unreleased
+
+### Breaking
+
+* Remove support for GHC 8.2, constraining lower bounds
+* Change minimal Cabal from 1.24 to 2.2
 
 ### Non-Breaking
 
