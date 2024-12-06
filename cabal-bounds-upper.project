@@ -25,7 +25,7 @@ constraints:
   , prettyprinter == 1.7.1
 
     -- https://hackage.haskell.org/package/tasty
-  , tasty == 1.5
+  , tasty == 1.5.2
 
     -- https://hackage.haskell.org/package/tasty-hunit
   , tasty-hunit == 0.10.2
