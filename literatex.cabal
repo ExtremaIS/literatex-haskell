@@ -29,6 +29,7 @@ tested-with:
    || ==9.6.6
    || ==9.8.4
    || ==9.10.1
+   || ==9.12.1
 
 source-repository head
   type: git
@@ -61,11 +62,11 @@ library
   autogen-modules:
       Paths_literatex
   build-depends:
-      base >=4.13.0.0 && <4.21
+      base >=4.13.0.0 && <4.22
     , bytestring >=0.10.10.1 && <0.13
     , conduit >=1.3.4 && <1.4
     , text >=1.2.4.0 && <2.2
-    , ttc >=0.4.0.0 && <1.5
+    , ttc >=0.4.0.0 && <1.6
     , unliftio >=0.2.13.1 && <0.3
   default-language: Haskell2010
   default-extensions:

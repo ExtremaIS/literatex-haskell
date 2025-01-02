@@ -1,22 +1,22 @@
 packages: ./literatex.cabal
 
-with-compiler: ghc-9.10.1
+with-compiler: ghc-9.12.1
 
 constraints:
     -- https://hackage.haskell.org/package/base
     -- GHC boot library
-    base == 4.20.0.0
+    base == 4.21.0.0
 
     -- https://hackage.haskell.org/package/bytestring
     -- GHC boot library
-  , bytestring == 0.12.1.0
+  , bytestring == 0.12.2.0
 
     -- https://hackage.haskell.org/package/conduit
   , conduit == 1.3.6
 
     -- https://hackage.haskell.org/package/filepath
     -- GHC boot library
-  , filepath == 1.5.2.0
+  , filepath == 1.5.4.0
 
     -- https://hackage.haskell.org/package/optparse-applicative
   , optparse-applicative == 0.18.1.0
@@ -32,10 +32,10 @@ constraints:
 
     -- https://hackage.haskell.org/package/text
     -- (GHC boot library from GHC 8.4)
-  , text == 2.1.1
+  , text == 2.1.2
 
     -- https://hackage.haskell.org/package/ttc
-  , ttc == 1.4.0.0
+  , ttc == 1.5.0.0
 
     -- https://hackage.haskell.org/package/unliftio
   , unliftio == 0.2.25.0
