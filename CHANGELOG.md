@@ -4,7 +4,7 @@ This project follows the [Haskell package versioning policy][PVP], with
 versions in `A.B.C.D` format.  `A` may be incremented arbitrarily for
 non-technical reasons, but [semantic versioning][SemVer] is otherwise
 followed, where `A.B` is the major version, `C` is the minor version, and `D`
-is the patch version.  Initial development uses versions `0.0.0.D`, for which
+is the patch version.  Initial development uses versions `0.0.C.D`, for which
 every version is considered breaking.
 
 [PVP]: <https://pvp.haskell.org/>
@@ -23,6 +23,24 @@ following conventions:
 * Changes are listed in arbitrary order and present tense.
 
 [KaC]: <https://keepachangelog.com/en/1.0.0/>
+
+## 0.4.0.0 (2025-01-03)
+
+### Breaking
+
+* Remove support for GHC 8.6, constraining lower bounds
+* Remove support for GHC 8.4, constraining lower bounds
+* Remove support for GHC 8.2, constraining lower bounds
+* Change minimal Cabal from 1.24 to 3.0
+
+### Non-Breaking
+
+* Bump `base` dependency version upper bound
+* Bump `bytestring` dependency version upper bound
+* Bump `filepath` dependency version upper bound
+* Bump `tasty` dependency version upper bound
+* Bump `text` dependency version upper bound
+* Bump `ttc` dependency version upper bound
 
 ## 0.3.0.0 (2023-05-28)
 

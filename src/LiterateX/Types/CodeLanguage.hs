@@ -2,7 +2,7 @@
 -- |
 -- Module      : LiterateX.Types.CodeLanguage
 -- Description : source code language type
--- Copyright   : Copyright (c) 2021-2023 Travis Cardwell
+-- Copyright   : Copyright (c) 2021-2025 Travis Cardwell
 -- License     : MIT
 ------------------------------------------------------------------------------
 

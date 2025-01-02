@@ -2,7 +2,7 @@
 -- |
 -- Module      : LiterateX.SourceDefaults
 -- Description : default options by source extension
--- Copyright   : Copyright (c) 2021-2023 Travis Cardwell
+-- Copyright   : Copyright (c) 2021-2025 Travis Cardwell
 -- License     : MIT
 --
 -- This module provides some default options for various sources.
@@ -29,7 +29,7 @@ import qualified LiterateX.Types.SourceFormat as SourceFormat
 -- @since 0.0.1.0
 defaultsFor :: FilePath -> Maybe (SourceFormat, CodeLanguage)
 defaultsFor path =
-  fmap snd . flip find extensionDefaults $ flip isSuffixOf path . fst
+    fmap snd . flip find extensionDefaults $ flip isSuffixOf path . fst
 
 ------------------------------------------------------------------------------
 

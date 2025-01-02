@@ -2,7 +2,7 @@
 -- |
 -- Module      : LiterateX
 -- Description : API
--- Copyright   : Copyright (c) 2021-2023 Travis Cardwell
+-- Copyright   : Copyright (c) 2021-2025 Travis Cardwell
 -- License     : MIT
 --
 -- This module provides high-level as well as low-level API functions for
@@ -315,7 +315,7 @@ runPure sourceFormat rendererOpts source sink = C.runConduitPure $
 -- * 'sourceLazyText'
 -- * 'sourceByteString'
 -- * 'sourceLazyByteString'
--- * 'sourceHandle'
+-- * 'LiterateX.sourceHandle'
 --
 -- This function works with the following output line consumers:
 --
@@ -324,7 +324,7 @@ runPure sourceFormat rendererOpts source sink = C.runConduitPure $
 -- * 'sinkLazyText'
 -- * 'sinkByteString'
 -- * 'sinkLazyByteString'
--- * 'sinkHandle'
+-- * 'LiterateX.sinkHandle'
 --
 -- @since 0.0.1.0
 runIO
@@ -346,8 +346,8 @@ runIO sourceFormat rendererOpts source sink = C.runConduit $
 -- * 'sourceLazyText'
 -- * 'sourceByteString'
 -- * 'sourceLazyByteString'
--- * 'sourceHandle'
--- * 'sourceFile'
+-- * 'LiterateX.sourceHandle'
+-- * 'LiterateX.sourceFile'
 --
 -- This function works with the following output line consumers:
 --
@@ -356,8 +356,8 @@ runIO sourceFormat rendererOpts source sink = C.runConduit $
 -- * 'sinkLazyText'
 -- * 'sinkByteString'
 -- * 'sinkLazyByteString'
--- * 'sinkHandle'
--- * 'sinkFile'
+-- * 'LiterateX.sinkHandle'
+-- * 'LiterateX.sinkFile'
 --
 -- @since 0.0.1.0
 runResource

@@ -1,0 +1,8 @@
+resolver: lts-23.2
+
+packages:
+  - .
+
+flags:
+  literatex:
+    optparse-applicative_ge_0_18: true

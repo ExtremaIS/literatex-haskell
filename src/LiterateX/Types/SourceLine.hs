@@ -2,7 +2,7 @@
 -- |
 -- Module      : LiterateX.Types.SourceLine
 -- Description : source line type
--- Copyright   : Copyright (c) 2021-2023 Travis Cardwell
+-- Copyright   : Copyright (c) 2021-2025 Travis Cardwell
 -- License     : MIT
 ------------------------------------------------------------------------------
 
