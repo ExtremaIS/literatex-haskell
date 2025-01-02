@@ -2,7 +2,7 @@
 -- |
 -- Module      : LibOA
 -- Description : supplementary functions for optparse-applicative
--- Copyright   : Copyright (c) 2019-2024 Travis Cardwell
+-- Copyright   : Copyright (c) 2019-2025 Travis Cardwell
 -- License     : MIT
 --
 -- This is a collection of functions that I often use with

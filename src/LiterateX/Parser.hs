@@ -2,7 +2,7 @@
 -- |
 -- Module      : LiterateX.Parser
 -- Description : source parser
--- Copyright   : Copyright (c) 2021-2024 Travis Cardwell
+-- Copyright   : Copyright (c) 2021-2025 Travis Cardwell
 -- License     : MIT
 --
 -- This module implements the source parser.
