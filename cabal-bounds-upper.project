@@ -19,13 +19,13 @@ constraints:
   , filepath == 1.5.4.0
 
     -- https://hackage.haskell.org/package/optparse-applicative
-  , optparse-applicative == 0.18.1.0
+  , optparse-applicative == 0.19.0.0
 
     -- https://hackage.haskell.org/package/prettyprinter
   , prettyprinter == 1.7.1
 
     -- https://hackage.haskell.org/package/tasty
-  , tasty == 1.5.2
+  , tasty == 1.5.3
 
     -- https://hackage.haskell.org/package/tasty-hunit
   , tasty-hunit == 0.10.2
